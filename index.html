@@ -1,0 +1,2798 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="BITCOIN ID">
+<meta name="theme-color" content="#080808">
+<title>BITCOIN ID — Bitcoin Intelligence Indonesia</title>
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icons/icon-192x192.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=JetBrains+Mono:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════════════════
+   BITCOIN ID — PREMIUM GOLD BLACK
+   Design: Amex Black + Bloomberg Terminal + Gold Leaf
+   Font: Cormorant Garamond (display) + JetBrains Mono + Outfit
+   Color: #080808 Black · #FFD700 Gold · #C0C0C0 Silver
+═══════════════════════════════════════════════════════ */
+
+/* ── RESET & ANTI-BUG ──────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0; padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+input, textarea, select {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* ── ANTI-ZOOM (iOS Safari) ────────────────────────── */
+html {
+  height: 100%;
+  font-size: 17px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  background: var(--bg);
+  color: var(--t1);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: none;
+  touch-action: pan-y;
+  padding-bottom: calc(var(--nav-h) + var(--safe-bot) + 8px);
+}
+
+/* ── CSS VARIABLES — PREMIUM GOLD BLACK ────────────── */
+:root {
+  /* Core Black */
+  --bg:     #080808;
+  --bg2:    #0D0D0D;
+  --bg3:    #111111;
+  --bg4:    #161616;
+  --bg5:    #1A1A1A;
+
+  /* Gold System */
+  --gold:   #FFD700;
+  --gold2:  #F0C040;
+  --gold3:  #C8960C;
+  --gold4:  #8B6914;
+  --gold-dim: rgba(255,215,0,0.08);
+  --gold-glow: rgba(255,215,0,0.15);
+
+  /* Silver */
+  --silver: #C0C0C0;
+  --silver2: #909090;
+  --silver3: #505050;
+
+  /* Semantic */
+  --up:     #22C55E;
+  --up-dim: rgba(34,197,94,0.12);
+  --dn:     #EF4444;
+  --dn-dim: rgba(239,68,68,0.12);
+  --blue:   #3B82F6;
+  --blue-dim: rgba(59,130,246,0.12);
+  --orange: #F97316;
+
+  /* Text */
+  --t1: #FFFFFF;
+  --t2: #E8E0D0;
+  --t3: #B8B0A0;
+  --t4: #706860;
+
+  /* Lines */
+  --line:  rgba(255,215,0,0.08);
+  --line2: rgba(255,215,0,0.15);
+  --line3: rgba(255,215,0,0.25);
+
+  /* Layout */
+  --nav-h:  56px;
+  --top-h:  52px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bot: env(safe-area-inset-bottom, 0px);
+  --r: 2px;
+
+  /* Fonts */
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-mono:    'JetBrains Mono', 'Courier New', monospace;
+  --font-body:    'Outfit', system-ui, sans-serif;
+}
+
+/* ── SCROLLBAR HIDE ─────────────────────────────────── */
+::-webkit-scrollbar { display: none; width: 0; height: 0; }
+* { scrollbar-width: none; -ms-overflow-style: none; }
+
+/* ── GARIS PUTIH FIX — lapisan solid di bawah nav ──── */
+body::after {
+  content: '';
+  position: fixed;
+  bottom: -2px; left: -2px; right: -2px;
+  height: calc(var(--nav-h) + var(--safe-bot) + 4px);
+  background: var(--bg);
+  z-index: 290;
+  pointer-events: none;
+}
+
+/* ── TYPOGRAPHY ─────────────────────────────────────── */
+.font-display { font-family: var(--font-display); }
+.font-mono    { font-family: var(--font-mono); }
+.font-body    { font-family: var(--font-body); }
+
+/* ── SPLASH SCREEN ──────────────────────────────────── */
+#splash {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--bg);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 0;
+  transition: opacity 0.8s ease, visibility 0.8s;
+}
+#splash.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+/* Corner ornaments */
+#splash::before {
+  content: '';
+  position: absolute; top: 24px; left: 24px;
+  width: 48px; height: 48px;
+  border-top: 1px solid var(--gold4);
+  border-left: 1px solid var(--gold4);
+}
+#splash::after {
+  content: '';
+  position: absolute; bottom: 24px; right: 24px;
+  width: 48px; height: 48px;
+  border-bottom: 1px solid var(--gold4);
+  border-right: 1px solid var(--gold4);
+}
+.sp-logo {
+  width: 88px; height: 88px;
+  border-radius: 20px;
+  object-fit: cover;
+  border: 1px solid var(--gold3);
+  box-shadow: 0 0 40px var(--gold-glow), 0 0 0 6px rgba(255,215,0,0.04);
+  margin-bottom: 28px;
+  animation: spFloat 4s ease-in-out infinite;
+}
+@keyframes spFloat {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+.sp-name {
+  font-family: var(--font-display);
+  font-size: 36px; font-weight: 700;
+  color: var(--gold); letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+.sp-tagline {
+  font-family: var(--font-mono);
+  font-size: 9px; color: var(--t4);
+  letter-spacing: 0.35em; text-transform: uppercase;
+  margin-bottom: 48px;
+}
+.sp-bar {
+  width: 140px; height: 1px;
+  background: var(--bg4); overflow: hidden;
+}
+.sp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  animation: spLoad 2.4s ease forwards;
+}
+@keyframes spLoad { from { width: 0; } to { width: 100%; } }
+@keyframes spPulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+/* ── TOPBAR ─────────────────────────────────────────── */
+#topbar {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 200;
+  height: calc(var(--top-h) + var(--safe-top));
+  padding-top: var(--safe-top);
+  background: var(--bg);
+  border-bottom: 1px solid var(--line2);
+  display: flex; align-items: center;
+  padding-left: 14px; padding-right: 14px;
+  gap: 10px;
+}
+/* Gold top rule */
+#topbar::after {
+  content: '';
+  position: absolute; top: var(--safe-top); left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--gold) 40%, var(--gold) 60%, transparent 100%);
+  opacity: 0.4;
+}
+.tb-logo {
+  width: 32px; height: 32px;
+  border-radius: 8px; object-fit: cover;
+  border: 1px solid var(--gold3);
+  flex-shrink: 0;
+}
+.tb-brand {
+  font-family: var(--font-display);
+  font-size: 20px; font-weight: 700;
+  color: var(--gold); letter-spacing: 0.06em;
+  flex: 1;
+}
+.tb-ticker {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--bg3);
+  border: 1px solid var(--line2);
+  padding: 5px 10px;
+}
+.tb-price {
+  font-family: var(--font-mono);
+  font-size: 13px; font-weight: 600; color: var(--gold);
+}
+.tb-chg {
+  font-family: var(--font-mono);
+  font-size: 9px; padding: 2px 5px;
+}
+.tb-chg.up { color: var(--up); background: var(--up-dim); }
+.tb-chg.dn { color: var(--dn); background: var(--dn-dim); }
+.tb-time {
+  font-family: var(--font-mono);
+  font-size: 9px; color: var(--t4);
+}
+
+/* ── BOTTOM NAV ─────────────────────────────────────── */
+#bottomNav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  z-index: 300;
+  height: calc(var(--nav-h) + var(--safe-bot));
+  padding-bottom: var(--safe-bot);
+  background: var(--bg);
+  border-top: 1px solid var(--line2);
+  display: flex; align-items: stretch;
+  overflow: hidden;
+}
+#bottomNav::before {
+  content: '';
+  position: absolute; top: 0; left: 15%; right: 15%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.5;
+}
+.nav-item {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 3px; cursor: pointer; position: relative;
+  padding-top: 4px;
+  transition: opacity 0.2s;
+}
+.nav-item::after {
+  content: '';
+  position: absolute; top: 0; left: 20%; right: 20%; height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transition: transform 0.25s ease;
+}
+.nav-item.active::after { transform: scaleX(1); }
+.nav-icon {
+  font-size: 21px; line-height: 1;
+  color: var(--t4);
+  transition: color 0.2s, transform 0.2s;
+}
+.nav-item.active .nav-icon { color: var(--gold); transform: scale(1.08); }
+.nav-label {
+  font-family: var(--font-mono); font-size: 8px;
+  color: var(--t4); letter-spacing: 0.1em; text-transform: uppercase;
+  transition: color 0.2s;
+}
+.nav-item.active .nav-label { color: var(--gold); }
+
+/* ── PAGES ──────────────────────────────────────────── */
+.page {
+  display: none;
+  padding: calc(var(--top-h) + var(--safe-top) + 16px + 28px) 14px 16px;
+  min-height: 100vh;
+  animation: pgFadeIn 0.3s ease;
+}
+.page.active { display: block; }
+@keyframes pgFadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── PAGE HEADER ────────────────────────────────────── */
+.pg-eyebrow {
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--gold3); letter-spacing: 0.4em; text-transform: uppercase;
+  margin-bottom: 6px;
+  display: flex; align-items: center; gap: 8px;
+}
+.pg-eyebrow::before { content: '◆'; font-size: 6px; color: var(--gold); }
+.pg-title {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 7vw, 38px);
+  font-weight: 700; color: var(--t1);
+  letter-spacing: -0.02em; line-height: 1.1;
+  margin-bottom: 20px;
+}
+.pg-title em { color: var(--gold); font-style: italic; }
+
+/* ── CARDS ──────────────────────────────────────────── */
+.card {
+  background: var(--bg3);
+  border: 1px solid var(--line);
+  padding: 18px 16px; margin-bottom: 12px;
+  position: relative; overflow: hidden;
+  transition: border-color 0.2s;
+}
+.card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold3), transparent);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.card:hover::before { opacity: 1; }
+.card-label {
+  font-family: var(--font-mono); font-size: 9px;
+  color: var(--t3); letter-spacing: 0.18em; text-transform: uppercase;
+  margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.card-label::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+
+/* ── STAT BLOCKS ────────────────────────────────────── */
+.stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+.stat-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+.stat {
+  background: var(--bg4); border: 1px solid var(--line);
+  padding: 14px 10px; text-align: center;
+}
+.stat-lbl { font-family: var(--font-mono); font-size: 9px; color: var(--t4); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 5px; }
+.stat-val { font-family: var(--font-mono); font-size: 15px; font-weight: 600; color: var(--t1); }
+.stat-val.gold { color: var(--gold); }
+.stat-val.up   { color: var(--up); }
+.stat-val.dn   { color: var(--dn); }
+.stat-val.blue { color: var(--blue); }
+
+/* ── BUTTON ─────────────────────────────────────────── */
+.btn {
+  width: 100%;
+  background: var(--gold);
+  color: var(--bg); padding: 13px;
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  border: none; cursor: pointer;
+  transition: all 0.25s; margin-top: 12px;
+  position: relative; overflow: hidden;
+}
+.btn::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+}
+.btn:hover { background: #FFE44D; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,215,0,0.25); }
+.btn:active { transform: translateY(0); }
+.btn.outline {
+  background: transparent; color: var(--gold);
+  border: 1px solid var(--gold);
+}
+.btn.outline:hover { background: var(--gold-dim); }
+.btn.danger { background: transparent; color: var(--dn); border: 1px solid var(--dn); }
+
+/* ── PILL BUTTONS ───────────────────────────────────── */
+.pill-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.pill {
+  flex: 1; min-width: 0;
+  background: var(--bg4); border: 1px solid var(--line2);
+  color: var(--t3); padding: 8px 10px;
+  font-family: var(--font-mono); font-size: 9px;
+  text-align: center; cursor: pointer;
+  transition: all 0.2s;
+}
+.pill.active { background: var(--gold-dim); border-color: var(--gold3); color: var(--gold); }
+
+/* ── INPUTS ─────────────────────────────────────────── */
+.field { margin-bottom: 12px; }
+.field-lbl {
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--t3); letter-spacing: 0.2em; text-transform: uppercase;
+  margin-bottom: 6px; display: block;
+}
+.field-inp {
+  width: 100%; background: var(--bg4);
+  border: 1px solid var(--line2); color: var(--t1);
+  padding: 11px 13px; font-family: var(--font-mono); font-size: 15px;
+  transition: border-color 0.2s; outline: none;
+}
+.field-inp:focus { border-color: var(--gold3); }
+.field-inp::placeholder { color: var(--t4); font-size: 12px; }
+input[type=range] {
+  -webkit-appearance: none; width: 100%; height: 2px;
+  background: var(--line2); outline: none; margin: 10px 0;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 18px; height: 18px;
+  border-radius: 50%; background: var(--gold); cursor: pointer;
+  box-shadow: 0 0 10px rgba(255,215,0,0.3);
+}
+
+/* ── INSIGHT BLOCK ──────────────────────────────────── */
+.insight {
+  background: var(--bg4); border: 1px solid var(--line2);
+  border-left: 2px solid var(--gold); padding: 14px 14px 14px 16px;
+  margin-bottom: 10px; position: relative; overflow: hidden;
+}
+.insight::before {
+  content: '"';
+  position: absolute; top: -8px; right: 10px;
+  font-family: var(--font-display); font-size: 60px;
+  color: rgba(255,215,0,0.05); line-height: 1;
+}
+.insight-lbl {
+  font-family: var(--font-mono); font-size: 7.5px;
+  color: var(--gold); letter-spacing: 0.25em; margin-bottom: 8px;
+}
+.insight-line {
+  display: flex; gap: 8px; margin-bottom: 7px;
+  font-size: 13px; color: var(--t2); line-height: 1.75;
+}
+.insight-line::before { content: '—'; color: var(--gold); flex-shrink: 0; }
+.insight-line strong { color: var(--t2); }
+.insight-line:last-child { margin-bottom: 0; }
+
+/* ── FOOTER ─────────────────────────────────────────── */
+.pg-footer {
+  text-align: center; padding: 20px 0 8px;
+  margin-top: 24px;
+  border-top: 1px solid var(--line);
+  position: relative;
+}
+.pg-footer::before {
+  content: '◆  ◆  ◆';
+  display: block; font-size: 8px; color: var(--gold4);
+  letter-spacing: 0.6em; margin-bottom: 12px;
+}
+.pf-name {
+  font-family: var(--font-display); font-size: 17px;
+  color: var(--t3); font-weight: 600; margin-bottom: 4px;
+}
+.pf-name em { color: var(--gold); font-style: italic; }
+.pf-by { font-family: var(--font-mono); font-size: 8px; color: var(--t4); letter-spacing: 0.15em; }
+
+/* ── CHART WRAPPER ──────────────────────────────────── */
+.chart-wrap {
+  position: relative; background: var(--bg3);
+  border: 1px solid var(--line); padding: 12px;
+  margin-bottom: 10px;
+}
+.chart-area { position: relative; width: 100%; }
+.chart-loading {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  height: 200px; gap: 10px;
+}
+.ch-bar { width: 80px; height: 1px; background: var(--line2); overflow: hidden; }
+.ch-fill { height: 100%; background: var(--gold); animation: chLoad 1.5s ease infinite; }
+.ch-txt { font-family: var(--font-mono); font-size: 8px; color: var(--t4); letter-spacing: 0.2em; }
+@keyframes chLoad {
+  0% { width:0; margin-left:0; }
+  50% { width:70%; margin-left:15%; }
+  100% { width:0; margin-left:100%; }
+}
+
+/* ── DRAWER (LAINNYA) ───────────────────────────────── */
+#drawer {
+  position: fixed; inset: 0; z-index: 500; display: none;
+}
+#drawer.open { display: block; }
+.drawer-overlay {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(6px);
+}
+.drawer-panel {
+  position: absolute;
+  bottom: calc(var(--nav-h) + var(--safe-bot));
+  left: 0; right: 0;
+  background: var(--bg2);
+  border-top: 1px solid var(--line2);
+  border-radius: 16px 16px 0 0;
+  padding: 14px 14px 18px;
+  max-height: 72vh; overflow-y: auto;
+  animation: drawerUp 0.3s ease;
+}
+@keyframes drawerUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.drawer-title {
+  font-family: var(--font-mono); font-size: 8px;
+  color: var(--gold); letter-spacing: 0.3em; text-transform: uppercase;
+  text-align: center; margin-bottom: 14px;
+  padding-bottom: 10px; border-bottom: 1px solid var(--line);
+}
+.drawer-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+}
+.drawer-item {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 6px;
+  padding: 14px 6px; cursor: pointer;
+  background: var(--bg4); border: 1px solid var(--line);
+  border-radius: 8px; transition: all 0.2s;
+}
+.drawer-item:active { transform: scale(0.95); background: var(--gold-dim); border-color: var(--gold3); }
+.drawer-icon { font-size: 26px; line-height: 1; }
+.drawer-label {
+  font-family: var(--font-mono); font-size: 8px;
+  color: var(--t2); letter-spacing: 0.03em;
+  text-transform: uppercase; text-align: center; line-height: 1.3;
+}
+
+/* ── TOAST ──────────────────────────────────────────── */
+#toast {
+  position: fixed; bottom: calc(var(--nav-h) + var(--safe-bot) + 16px);
+  left: 50%; transform: translateX(-50%) translateY(20px);
+  background: var(--bg3); border: 1px solid var(--gold3);
+  padding: 10px 20px; font-family: var(--font-mono); font-size: 10px;
+  color: var(--gold); letter-spacing: 0.1em;
+  z-index: 1000; opacity: 0;
+  transition: all 0.3s ease; white-space: nowrap;
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── HALVING CLOCK (SVG) ────────────────────────────── */
+#halvingClock { width: 100%; max-width: 320px; display: block; margin: 0 auto 16px; }
+.rp-val {
+  font-family: var(--font-display); font-size: 42px;
+  font-weight: 700; color: var(--gold); text-align: center;
+  letter-spacing: -0.02em; line-height: 1;
+  margin: 8px 0;
+}
+.rp-sub {
+  font-family: var(--font-mono); font-size: 9px;
+  color: var(--t4); text-align: center; letter-spacing: 0.15em;
+  margin-bottom: 16px;
+}
+/* Epoch timeline */
+.ep-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 14px; margin-bottom: 5px;
+  border: 1px solid var(--line); background: var(--bg4);
+  position: relative;
+}
+.ep-row::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; }
+.ep-row.done  { opacity: 0.7; }
+.ep-row.done::before  { background: var(--up); }
+.ep-row.now::before   { background: var(--gold); }
+.ep-row.next::before  { background: var(--silver3); }
+.ep-row.future::before { background: var(--bg5); }
+.ep-h {
+  font-family: var(--font-mono); font-size: 10px;
+  font-weight: 600; min-width: 50px;
+}
+.ep-row.done .ep-h  { color: var(--up); }
+.ep-row.now .ep-h   { color: var(--gold); }
+.ep-row.next .ep-h  { color: var(--silver); }
+.ep-row.future .ep-h { color: var(--t4); }
+.ep-ev  { font-size: 15px; font-weight: 600; color: var(--t1); }
+.ep-date { font-family: var(--font-mono); font-size: 11px; color: var(--t3); margin-top: 2px; }
+.ep-st {
+  margin-left: auto; font-family: var(--font-mono); font-size: 9px;
+  padding: 3px 8px; border: 1px solid currentColor; white-space: nowrap;
+}
+.ep-row.done .ep-st  { color: var(--up); }
+.ep-row.now .ep-st   { color: var(--gold); }
+.ep-row.next .ep-st  { color: var(--silver); }
+.ep-row.future .ep-st { color: var(--t4); }
+/* Progress bar */
+.prog-wrap { margin: 10px 0 16px; }
+.prog-meta {
+  display: flex; justify-content: space-between;
+  font-family: var(--font-mono); font-size: 8px; color: var(--t4);
+  margin-bottom: 6px;
+}
+.prog-meta strong { color: var(--gold); }
+.prog-track {
+  height: 4px; background: var(--bg4); border: 1px solid var(--line);
+  position: relative;
+}
+.prog-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--gold3), var(--gold));
+  transition: width 1s ease;
+  position: relative;
+}
+.prog-fill::after {
+  content: ''; position: absolute; right: -1px; top: -3px;
+  width: 2px; height: 10px;
+  background: var(--gold); box-shadow: 0 0 8px var(--gold);
+}
+.prog-marks {
+  display: flex; justify-content: space-between;
+  margin-top: 6px;
+  font-family: var(--font-mono); font-size: 7px; color: var(--t4);
+  text-align: center;
+}
+.prog-marks .pm-gold { color: var(--gold); }
+
+/* ── CHART PAGE ─────────────────────────────────────── */
+.tf-row {
+  display: flex; overflow-x: auto; gap: 0;
+  border-bottom: 1px solid var(--line); margin-bottom: 0;
+}
+.tf-btn {
+  padding: 9px 14px; font-family: var(--font-mono); font-size: 9px;
+  background: transparent; border: none; color: var(--t4);
+  border-bottom: 2px solid transparent; cursor: pointer;
+  white-space: nowrap; transition: all 0.2s; letter-spacing: 0.08em;
+}
+.tf-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+/* ── PRICE HERO ─────────────────────────────────────── */
+.price-hero { padding: 16px 14px 12px; border-bottom: 1px solid var(--line); }
+.ph-label { font-family: var(--font-mono); font-size: 8px; color: var(--t4); letter-spacing: 0.2em; margin-bottom: 6px; }
+.ph-usd {
+  font-family: var(--font-display); font-size: clamp(32px,8vw,48px);
+  font-weight: 700; color: var(--t1); letter-spacing: -0.03em; line-height: 1;
+}
+.ph-idr { font-family: var(--font-mono); font-size: 12px; color: var(--gold); margin: 4px 0; }
+.ph-chg {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-family: var(--font-mono); font-size: 11px; padding: 3px 8px;
+}
+.ph-chg.up { background: var(--up-dim); color: var(--up); }
+.ph-chg.dn { background: var(--dn-dim); color: var(--dn); }
+.ph-stats { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+.ph-si { }
+.ph-si-lbl { font-family: var(--font-mono); font-size: 7px; color: var(--t4); letter-spacing: 0.12em; text-transform: uppercase; }
+.ph-si-val { font-family: var(--font-mono); font-size: 11px; color: var(--t1); margin-top: 2px; }
+.ph-si-val.up { color: var(--up); }
+.ph-si-val.dn { color: var(--dn); }
+.ph-si-val.gold { color: var(--gold); }
+
+/* ── FEAR & GREED ───────────────────────────────────── */
+.fg-num {
+  font-family: var(--font-display); font-size: 56px; font-weight: 700;
+  text-align: center; line-height: 1; margin: 8px 0 4px;
+}
+.fg-lbl {
+  font-family: var(--font-mono); font-size: 9px;
+  letter-spacing: 0.2em; text-align: center; margin-bottom: 12px;
+  text-transform: uppercase;
+}
+.fg-track { height: 6px; background: var(--bg4); border: 1px solid var(--line); margin-bottom: 6px; }
+.fg-fill  { height: 100%; width: 0%; transition: width 1s ease; background: var(--gold); }
+.fg-zones { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 7px; color: var(--t4); }
+.fg-note  { font-family: var(--font-mono); font-size: 9px; color: var(--t3); margin-top: 8px; line-height: 1.6; }
+
+/* ── DCA CALCULATOR ─────────────────────────────────── */
+.dca-result {
+  background: var(--bg4); border: 1px solid var(--gold3);
+  padding: 16px; margin-top: 14px; text-align: center;
+}
+.dca-btc { font-family: var(--font-display); font-size: 32px; font-weight: 700; color: var(--gold); }
+.dca-sat { font-family: var(--font-mono); font-size: 11px; color: var(--t3); margin: 4px 0; }
+
+/* ── SATOSHI CONVERTER ──────────────────────────────── */
+.conv-display {
+  background: var(--bg4); border: 1px solid var(--line);
+  padding: 16px; text-align: center; margin-bottom: 10px;
+}
+.conv-val { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--gold); }
+.conv-unit { font-family: var(--font-mono); font-size: 10px; color: var(--t4); margin-top: 4px; letter-spacing: 0.2em; }
+
+/* ── PRICE ALERT ────────────────────────────────────── */
+.alert-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px; background: var(--bg4);
+  border: 1px solid var(--line); margin-bottom: 6px;
+}
+.alert-price { font-family: var(--font-mono); font-size: 13px; font-weight: 600; flex: 1; }
+.alert-type { font-family: var(--font-mono); font-size: 8px; padding: 2px 8px; border: 1px solid currentColor; }
+.alert-del { font-size: 14px; cursor: pointer; color: var(--dn); opacity: 0.7; }
+
+/* ── DCA JOURNAL ────────────────────────────────────── */
+.journal-item {
+  padding: 12px 14px; background: var(--bg4);
+  border: 1px solid var(--line); margin-bottom: 6px;
+  position: relative;
+}
+.ji-date { font-family: var(--font-mono); font-size: 8px; color: var(--t4); margin-bottom: 4px; }
+.ji-row { display: flex; justify-content: space-between; align-items: center; }
+.ji-idr { font-family: var(--font-mono); font-size: 12px; color: var(--t1); }
+.ji-btc { font-family: var(--font-mono); font-size: 10px; color: var(--gold); }
+.ji-pnl { font-family: var(--font-mono); font-size: 10px; padding: 2px 6px; }
+.ji-pnl.up { color: var(--up); background: var(--up-dim); }
+.ji-pnl.dn { color: var(--dn); background: var(--dn-dim); }
+.ji-del { position: absolute; top: 8px; right: 10px; font-size: 12px; cursor: pointer; color: var(--dn); opacity: 0.5; }
+
+/* ── BADGES ─────────────────────────────────────────── */
+.badge-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+.badge-card {
+  background: var(--bg4); border: 1px solid var(--line);
+  padding: 14px 10px; text-align: center;
+  transition: border-color 0.2s;
+}
+.badge-card.unlocked { border-color: var(--gold3); background: rgba(255,215,0,0.04); }
+.badge-icon { font-size: 28px; margin-bottom: 6px; filter: grayscale(1) opacity(0.3); }
+.badge-card.unlocked .badge-icon { filter: none; }
+.badge-name { font-family: var(--font-mono); font-size: 7.5px; color: var(--t4); letter-spacing: 0.08em; line-height: 1.4; }
+.badge-card.unlocked .badge-name { color: var(--gold); }
+
+/* ── NEWS ───────────────────────────────────────────── */
+.news-item {
+  padding: 12px 14px; background: var(--bg4);
+  border: 1px solid var(--line); margin-bottom: 6px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.news-item:hover { border-color: var(--gold3); }
+.news-src { font-family: var(--font-mono); font-size: 7.5px; color: var(--gold3); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 4px; }
+.news-title { font-size: 14px; color: var(--t1); line-height: 1.55; margin-bottom: 5px; }
+.news-time { font-family: var(--font-mono); font-size: 8px; color: var(--t4); }
+
+/* ── WHALE ──────────────────────────────────────────── */
+.whale-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; background: var(--bg4);
+  border: 1px solid var(--line); margin-bottom: 4px;
+}
+.whale-rank { font-family: var(--font-mono); font-size: 10px; color: var(--t4); min-width: 24px; }
+.whale-name { font-size: 13px; color: var(--t1); flex: 1; }
+.whale-btc { font-family: var(--font-mono); font-size: 11px; color: var(--gold); }
+.whale-pct { font-family: var(--font-mono); font-size: 9px; color: var(--t4); min-width: 40px; text-align: right; }
+
+/* ── WHITEPAPER ─────────────────────────────────────── */
+.wp-chapter {
+  padding: 16px; background: var(--bg4);
+  border: 1px solid var(--line); margin-bottom: 6px;
+  cursor: pointer; transition: border-color 0.2s;
+}
+.wp-chapter:hover { border-color: var(--gold3); }
+.wp-num { font-family: var(--font-mono); font-size: 8px; color: var(--gold3); margin-bottom: 4px; letter-spacing: 0.2em; }
+.wp-title { font-family: var(--font-display); font-size: 15px; color: var(--t1); margin-bottom: 4px; }
+.wp-desc { font-size: 11px; color: var(--t3); line-height: 1.5; }
+.wp-content { display: none; padding: 12px 0 4px; font-size: 12px; color: var(--t3); line-height: 1.8; }
+.wp-content.open { display: block; }
+
+/* ── RAINBOW CHART ZONES ────────────────────────────── */
+.rb-zone {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 10px; margin-bottom: 4px;
+  border-radius: 2px; border: 1px solid transparent;
+}
+.rb-zone.active { border-color: currentColor; }
+.rb-dot { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
+.rb-name { font-family: var(--font-mono); font-size: 9px; flex: 1; }
+.rb-price { font-family: var(--font-mono); font-size: 9px; color: var(--t4); }
+
+/* ── ON-CHAIN MVRV ──────────────────────────────────── */
+.oc-gauge {
+  height: 8px; border-radius: 4px; position: relative;
+  background: linear-gradient(90deg, #1a3a6c 0%, #22c55e 28%, #ffd700 55%, #ef4444 85%, #7f0000 100%);
+  margin: 12px 0;
+}
+.oc-needle {
+  position: absolute; top: -4px;
+  width: 4px; height: 16px; background: white;
+  border-radius: 2px; transform: translateX(-50%);
+  transition: left 1s ease;
+  box-shadow: 0 0 6px rgba(255,255,255,0.6);
+}
+.oc-zone-row {
+  display: flex; gap: 8px; align-items: center;
+  padding: 8px 10px; margin-bottom: 4px;
+  border: 1px solid transparent;
+}
+.oc-zone-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.oc-zone-label { font-family: var(--font-mono); font-size: 9px; font-weight: 600; min-width: 80px; }
+.oc-zone-desc { font-size: 12px; color: var(--t2); }
+
+/* ── PREDICTOR ──────────────────────────────────────── */
+.pred-card {
+  padding: 14px; background: var(--bg4);
+  border: 1px solid var(--line); margin-bottom: 6px;
+}
+.pred-year { font-family: var(--font-mono); font-size: 9px; color: var(--gold); letter-spacing: 0.2em; margin-bottom: 6px; }
+.pred-price { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--t1); }
+.pred-desc { font-size: 11px; color: var(--t3); margin-top: 4px; line-height: 1.5; }
+
+/* ── PAJAK ──────────────────────────────────────────── */
+.tax-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.tax-label { font-size: 12px; color: var(--t2); }
+.tax-val { font-family: var(--font-mono); font-size: 12px; font-weight: 600; }
+
+/* ── M2 ─────────────────────────────────────────────── */
+.m2-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: var(--bg4); border: 1px solid var(--line); margin-bottom: 4px; }
+.m2-label { font-size: 12px; color: var(--t2); }
+.m2-val { font-family: var(--font-mono); font-size: 11px; color: var(--t1); }
+
+/* ── COLD WALLET ────────────────────────────────────── */
+.hw-card {
+  padding: 16px; background: var(--bg4);
+  border: 1px solid var(--line); margin-bottom: 8px;
+}
+.hw-name { font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: var(--gold); margin-bottom: 4px; }
+.hw-price { font-family: var(--font-mono); font-size: 9px; color: var(--t4); margin-bottom: 6px; }
+.hw-desc { font-size: 11px; color: var(--t3); line-height: 1.6; }
+.hw-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 6px; }
+.hw-tag { font-family: var(--font-mono); font-size: 7.5px; padding: 2px 7px; background: var(--gold-dim); color: var(--gold3); border: 1px solid var(--line2); }
+
+/* ── DEEP KNOWLEDGE ─────────────────────────────────── */
+.dk-section {
+  padding: 16px; background: var(--bg4);
+  border: 1px solid var(--line); margin-bottom: 6px;
+  cursor: pointer; transition: border-color 0.2s;
+}
+.dk-section:hover { border-color: var(--gold3); }
+.dk-title { font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--gold); margin-bottom: 4px; }
+.dk-preview { font-size: 11px; color: var(--t3); line-height: 1.5; }
+.dk-body { display: none; padding-top: 10px; font-size: 12px; color: var(--t3); line-height: 1.8; }
+.dk-body.open { display: block; }
+.dk-body strong { color: var(--t2); }
+
+/* ── DONATE ─────────────────────────────────────────── */
+.qr-wrap {
+  background: white; padding: 12px; display: inline-block;
+  margin: 12px auto; border-radius: 4px;
+  box-shadow: 0 0 24px rgba(255,215,0,0.1);
+  max-width: 160px;
+}
+.qr-wrap img { width: 100%; display: block; }
+.addr-box {
+  background: var(--bg4); border: 1px solid var(--line);
+  padding: 10px 12px; font-family: var(--font-mono);
+  font-size: 10px; color: var(--gold3); word-break: break-all;
+  margin: 8px 0; line-height: 1.6;
+}
+
+/* ── ANIMATIONS ─────────────────────────────────────── */
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+@keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+.live-dot {
+  display: inline-block; width: 6px; height: 6px;
+  border-radius: 50%; background: var(--up);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes tickerScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+#priceTicker:hover #tickerInner { animation-play-state: paused; }
+</style>
+</head>
+<body>
+
+<!-- ═══ SPLASH SCREEN ═══════════════════════════════ -->
+<div id="splash">
+  <img src="./icons/icon-192x192.png" class="sp-logo" alt="BITCOIN ID"
+       onerror="this.style.background='#FFD700';this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>₿</text></svg>'">
+  <div class="sp-name">BITCOIN ID</div>
+  <div class="sp-tagline">Bitcoin Intelligence Indonesia</div>
+  <div class="sp-bar"><div class="sp-fill"></div></div>
+</div>
+
+<!-- ═══ TOPBAR ═══════════════════════════════════════ -->
+<div id="topbar">
+  <img src="./icons/icon-96x96.png" class="tb-logo" alt="logo"
+       onerror="this.outerHTML='<div class=tb-logo style=background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--bg);font-weight:900>₿</div>'">
+  <div class="tb-brand">BITCOIN ID</div>
+  <div class="tb-ticker">
+    <div class="tb-price" id="topPrice">Rp—</div>
+    <div class="tb-chg" id="topChg">—</div>
+  </div>
+  <div class="tb-time" id="topTime">—</div>
+</div>
+
+
+<!-- ═══ PRICE TICKER BERJALAN ═══════════════════════ -->
+<div id="priceTicker" style="background:var(--bg2);border-bottom:1px solid var(--line);overflow:hidden;white-space:nowrap;height:28px;display:flex;align-items:center">
+  <div id="tickerInner" style="display:inline-flex;gap:0;animation:tickerScroll 25s linear infinite;font-family:var(--font-mono);font-size:10px">
+  </div>
+</div>
+<!-- ═══ PAGES ════════════════════════════════════════ -->
+
+<!-- PAGE 1: HALVING -->
+<div class="page active" id="page-halving">
+  <div class="pg-eyebrow">Epoch Tracker</div>
+  <div class="pg-title">Halving <em>Clock</em></div>
+
+  <!-- SVG Clock -->
+  <svg id="halvingClock" viewBox="0 0 300 300">
+    <defs>
+      <radialGradient id="bgGrad" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#161616"/>
+        <stop offset="100%" stop-color="#080808"/>
+      </radialGradient>
+      <filter id="glow">
+        <feGaussianBlur stdDeviation="3" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <!-- Background -->
+    <circle cx="150" cy="150" r="148" fill="url(#bgGrad)" stroke="#FFD700" stroke-width="0.5" stroke-opacity="0.3"/>
+    <!-- Outer ring marks -->
+    <g id="ck-marks"></g>
+    <!-- Track -->
+    <circle cx="150" cy="150" r="110" fill="none" stroke="#1A1A1A" stroke-width="16"/>
+    <!-- Done arc (Q1 passed) -->
+    <circle id="ck-done" cx="150" cy="150" r="110" fill="none" stroke="#22C55E" stroke-width="16" stroke-linecap="butt"
+            stroke-dasharray="0 691.2" stroke-dashoffset="172.8" transform="rotate(-90 150 150)" opacity="0.7"/>
+    <!-- Current arc -->
+    <circle id="ck-curr" cx="150" cy="150" r="110" fill="none" stroke="#FFD700" stroke-width="16" stroke-linecap="butt"
+            stroke-dasharray="0 691.2" stroke-dashoffset="172.8" transform="rotate(-90 150 150)" filter="url(#glow)"/>
+    <!-- Quarter markers -->
+    <circle cx="150" cy="40" r="4" fill="#FFD700" opacity="0.4"/>
+    <circle cx="260" cy="150" r="4" fill="#FFD700" opacity="0.4"/>
+    <circle cx="150" cy="260" r="4" fill="#FFD700" opacity="0.4"/>
+    <circle cx="40" cy="150" r="4" fill="#FFD700" opacity="0.4"/>
+    <!-- Now pointer -->
+    <g id="ck-now-ptr"></g>
+    <!-- Center -->
+    <circle cx="150" cy="150" r="60" fill="#0D0D0D" stroke="#FFD700" stroke-width="0.5" stroke-opacity="0.3"/>
+    <text x="150" y="143" font-family="Cormorant Garamond,serif" font-size="28" font-weight="700" fill="#FFD700" text-anchor="middle" filter="url(#glow)" id="ck-hval">h=4.512</text>
+    <text x="150" y="162" font-family="JetBrains Mono,monospace" font-size="9" fill="#4A4540" text-anchor="middle">EPOCH #5</text>
+    <!-- Labels -->
+    <text x="150" y="30" font-family="JetBrains Mono,monospace" font-size="8" fill="#4A4540" text-anchor="middle">h=5.00</text>
+    <text x="272" y="154" font-family="JetBrains Mono,monospace" font-size="8" fill="#22C55E" text-anchor="start">Q1✓</text>
+    <text x="150" y="276" font-family="JetBrains Mono,monospace" font-size="8" fill="#FFD700" text-anchor="middle">Q2✓</text>
+    <text x="20" y="154" font-family="JetBrains Mono,monospace" font-size="8" fill="#4A4540" text-anchor="middle">Q3</text>
+    <text x="239" y="30" font-family="JetBrains Mono,monospace" font-size="7" fill="#4A4540" text-anchor="middle">4.25</text>
+    <text x="239" y="278" font-family="JetBrains Mono,monospace" font-size="7" fill="#FFD700" text-anchor="middle">4.50</text>
+    <text x="55" y="278" font-family="JetBrains Mono,monospace" font-size="7" fill="#4A4540" text-anchor="middle">4.75</text>
+  </svg>
+
+  <!-- H-Value display -->
+  <div class="card">
+    <div class="card-label">Current H-Value · Halving Epoch #5</div>
+    <div class="rp-val" id="hvDisplay">h = 4.51175</div>
+    <div class="rp-sub">Block <span id="blockHeight">947,467</span> · <span id="halvingCountdown">~712 hari menuju Halving ke-5</span></div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="card">
+    <div class="card-label">Epoch #5 Timeline</div>
+    <div class="ep-row done">
+      <div class="ep-h">h=4.00</div>
+      <div><div class="ep-ev">Halving Ke-4</div><div class="ep-date">April 2024 · Titik nol siklus ke-5</div></div>
+      <div class="ep-st">Lewat ✓</div>
+    </div>
+    <div class="ep-row done">
+      <div class="ep-h">h=4.25</div>
+      <div><div class="ep-ev">Quarter Pertama</div><div class="ep-date">Apr 2025 · ATH $126.000</div></div>
+      <div class="ep-st">Lewat ✓</div>
+    </div>
+    <div class="ep-row done">
+      <div class="ep-h">h=4.50</div>
+      <div><div class="ep-ev">Quarter Kedua</div><div class="ep-date">Apr 2026 · Post-correction</div></div>
+      <div class="ep-st">Lewat ✓</div>
+    </div>
+    <div class="ep-row now">
+      <div class="ep-h">h=4.512</div>
+      <div><div class="ep-ev">◀ Posisi Sekarang</div><div class="ep-date">Mei 2026 · Block 947.467</div></div>
+      <div class="ep-st"><span class="live-dot"></span> Live</div>
+    </div>
+    <div class="ep-row next">
+      <div class="ep-h">h=4.75</div>
+      <div><div class="ep-ev">Quarter Ketiga</div><div class="ep-date">~2027 · ~350 hari lagi</div></div>
+      <div class="ep-st">Incoming</div>
+    </div>
+    <div class="ep-row future">
+      <div class="ep-h">h=5.00</div>
+      <div><div class="ep-ev">Halving Ke-5</div><div class="ep-date">~April 2028 · Reward 1.5625 BTC</div></div>
+      <div class="ep-st">—</div>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="card">
+    <div class="card-label">Progress Siklus Ke-5</div>
+    <div class="prog-wrap">
+      <div class="prog-meta">
+        <span>h=4.00 Start</span>
+        <strong id="progPct">51.17% selesai</strong>
+        <span>h=5.00 End</span>
+      </div>
+      <div class="prog-track"><div class="prog-fill" id="progFill"></div></div>
+      <div class="prog-marks">
+        <span class="pm-gold">4.00<br>Start</span>
+        <span class="pm-gold">4.25<br>Q1✓</span>
+        <span class="pm-gold">4.50<br>Q2✓</span>
+        <span class="pm-gold" style="color:var(--gold)">4.512<br>Now</span>
+        <span>4.75<br>Q3</span>
+        <span>5.00<br>End</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Analysis -->
+  <div class="insight">
+    <div class="insight-lbl">▸ Analisis Posisi Siklus</div>
+    <div class="insight-line">Berada di <strong>51% perjalanan</strong> siklus ke-5 — sudah melewati separuh jalan.</div>
+    <div class="insight-line">ATH $126K sudah terjadi di Q1 (h=4.25). Koreksi 40% adalah pola <strong>normal post-ATH</strong> setiap siklus.</div>
+    <div class="insight-line">Zona ini adalah <strong>akumulasi premium</strong> — smart money beli saat retail panik.</div>
+    <div class="insight-line">Masih ada <strong>~712 hari</strong> tersisa menuju Halving ke-5 di April 2028.</div>
+  </div>
+
+  <div class="pg-footer">
+    <div class="pf-name">BITCOIN <em>ID</em></div>
+    <div class="pf-by">by nzmlfhmy · Bitcoin Intelligence Indonesia</div>
+  </div>
+</div>
+
+<!-- PAGE 2: CHART -->
+<div class="page" id="page-chart">
+  <!-- Price Hero (no top padding — hero goes edge to edge) -->
+  <div class="price-hero" style="margin: calc(-(var(--top-h) + var(--safe-top) + 16px)) -14px 0; padding-top: calc(var(--top-h) + var(--safe-top) + 14px);">
+    <div class="ph-label">BTC-USD · Bitcoin USD · Real-Time</div>
+    <div style="display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap">
+      <div class="ph-usd" id="chUSD">$—</div>
+      <div class="ph-chg" id="chChg">—</div>
+    </div>
+    <div class="ph-idr" id="chIDR">Rp —</div>
+    <div class="ph-stats">
+      <div class="ph-si"><div class="ph-si-lbl">24H High</div><div class="ph-si-val up" id="chHigh">—</div></div>
+      <div class="ph-si"><div class="ph-si-lbl">24H Low</div><div class="ph-si-val dn" id="chLow">—</div></div>
+      <div class="ph-si"><div class="ph-si-lbl">Volume</div><div class="ph-si-val" id="chVol">—</div></div>
+      <div class="ph-si"><div class="ph-si-lbl">Mkt Cap</div><div class="ph-si-val gold" id="chMcap">—</div></div>
+      <div class="ph-si"><div class="ph-si-lbl">ATH</div><div class="ph-si-val gold" id="chAth">$126K</div></div>
+    </div>
+  </div>
+
+  <!-- Timeframe -->
+  <div class="tf-row">
+    <button class="tf-btn active" onclick="loadChart(1,this)">1H</button>
+    <button class="tf-btn" onclick="loadChart(24,this)">24H</button>
+    <button class="tf-btn" onclick="loadChart(168,this)">7H</button>
+    <button class="tf-btn" onclick="loadChart(720,this)">1B</button>
+    <button class="tf-btn" onclick="loadChart(2160,this)">3B</button>
+    <button class="tf-btn" onclick="loadChart(8760,this)">1T</button>
+    <button class="tf-btn" onclick="loadChart(0,this)">ALL</button>
+  </div>
+
+  <!-- Line Chart -->
+  <div class="chart-wrap" style="padding:10px 10px 6px">
+    <div style="font-family:var(--font-mono);font-size:7.5px;color:var(--t4);letter-spacing:.15em;margin-bottom:6px" id="chRangeLbl">1 Jam Terakhir</div>
+    <div id="chLoading" class="chart-loading" style="height:200px">
+      <div class="ch-bar"><div class="ch-fill"></div></div>
+      <div class="ch-txt">Memuat chart...</div>
+    </div>
+    <div class="chart-area" style="height:200px"><canvas id="priceChart"></canvas></div>
+    <div class="chart-area" style="height:36px;margin-top:2px"><canvas id="volChart"></canvas></div>
+  </div>
+
+  <!-- Candlestick -->
+  <div class="chart-wrap">
+    <div class="card-label">Candlestick OHLC</div>
+    <div class="tf-row" style="border:none;margin-bottom:8px">
+      <button class="tf-btn active" onclick="loadCandle(1,this)">1D</button>
+      <button class="tf-btn" onclick="loadCandle(7,this)">7D</button>
+      <button class="tf-btn" onclick="loadCandle(14,this)">14D</button>
+      <button class="tf-btn" onclick="loadCandle(30,this)">30D</button>
+      <button class="tf-btn" onclick="loadCandle(90,this)">90D</button>
+    </div>
+    <div style="display:flex;gap:12px;font-family:var(--font-mono);font-size:7.5px;color:var(--t4);margin-bottom:6px">
+      <span style="color:var(--up)">■ Naik</span>
+      <span style="color:var(--dn)">■ Turun</span>
+    </div>
+    <div id="candleLoading" class="chart-loading" style="height:160px">
+      <div class="ch-bar"><div class="ch-fill"></div></div>
+      <div class="ch-txt">Memuat candlestick...</div>
+    </div>
+    <div class="chart-area" style="height:160px"><canvas id="candleChart"></canvas></div>
+  </div>
+
+  <!-- Fear & Greed -->
+  <div class="card">
+    <div class="card-label">Fear &amp; Greed Index</div>
+    <div class="fg-num" id="fgNum">—</div>
+    <div class="fg-lbl" id="fgLbl">Memuat...</div>
+    <div class="fg-track"><div class="fg-fill" id="fgFill"></div></div>
+    <div class="fg-zones">
+      <span>Ext.Fear</span><span>Fear</span><span>Neutral</span><span>Greed</span><span>Ext.Greed</span>
+    </div>
+    <div class="fg-note" id="fgNote">—</div>
+  </div>
+
+  <div class="pg-footer">
+    <div class="pf-name">BITCOIN <em>ID</em></div>
+    <div class="pf-by">Data: CoinGecko API · Auto-refresh 30 detik</div>
+  </div>
+</div>
+
+<!-- PAGE 3: DCA -->
+<div class="page" id="page-dca">
+  <div class="pg-eyebrow">Kalkulator Investasi</div>
+  <div class="pg-title">DCA <em>Calculator</em></div>
+
+  <div class="card">
+    <div class="card-label">Input DCA</div>
+    <div class="field">
+      <label class="field-lbl">Harga BTC Saat Ini (Rp)</label>
+      <input class="field-inp" type="number" id="dcaPrice" placeholder="1.360.000.000">
+    </div>
+    <div class="field">
+      <label class="field-lbl">Investasi Per Bulan (Rp)</label>
+      <input class="field-inp" type="number" id="dcaMonthly" placeholder="500000">
+    </div>
+    <div class="field">
+      <label class="field-lbl">Durasi Investasi (Bulan)</label>
+      <div style="font-family:var(--font-display);font-size:28px;color:var(--gold);text-align:center;margin:6px 0" id="dcaMonthVal">12 Bulan</div>
+      <input type="range" id="dcaMonthSlider" min="1" max="60" value="12" oninput="document.getElementById('dcaMonthVal').textContent=this.value+' Bulan';calcDCA()">
+    </div>
+    <div class="field">
+      <label class="field-lbl">Target Harga BTC (Rp) — Skenario</label>
+      <input class="field-inp" type="number" id="dcaTarget" placeholder="2.500.000.000">
+    </div>
+    <button class="btn" onclick="calcDCA()">⚡ Hitung DCA</button>
+  </div>
+
+  <div class="dca-result" id="dcaResult" style="display:none">
+    <div class="card-label">Hasil Proyeksi DCA</div>
+    <div class="stat-row">
+      <div class="stat"><div class="stat-lbl">Total Modal</div><div class="stat-val" id="dcaTotalModal">—</div></div>
+      <div class="stat"><div class="stat-lbl">Total BTC</div><div class="stat-val gold" id="dcaTotalBTC">—</div></div>
+      <div class="stat"><div class="stat-lbl">Total Satoshi</div><div class="stat-val" id="dcaTotalSat">—</div></div>
+      <div class="stat"><div class="stat-lbl">Nilai di Target</div><div class="stat-val up" id="dcaValueAtTarget">—</div></div>
+    </div>
+    <div class="insight" style="margin-top:10px">
+      <div class="insight-lbl">▸ Ringkasan</div>
+      <div class="insight-line" id="dcaSummary">—</div>
+    </div>
+  </div>
+
+  <!-- DCA Journal -->
+  <div class="card" style="margin-top:16px">
+    <div class="card-label">DCA Journal — Riwayat Beli</div>
+    <div class="field">
+      <label class="field-lbl">Tanggal Beli</label>
+      <input class="field-inp" type="date" id="jDate">
+    </div>
+    <div class="field">
+      <label class="field-lbl">Jumlah (Rp)</label>
+      <input class="field-inp" type="number" id="jAmount" placeholder="500000">
+    </div>
+    <div class="field">
+      <label class="field-lbl">Harga BTC Saat Beli (Rp)</label>
+      <input class="field-inp" type="number" id="jPrice" placeholder="1360000000">
+    </div>
+    <button class="btn outline" onclick="addJournal()">+ Catat Pembelian</button>
+  </div>
+
+  <div id="journalList"></div>
+
+  <div class="insight" id="journalSummary" style="display:none">
+    <div class="insight-lbl">▸ Ringkasan Journal</div>
+    <div class="insight-line" id="jSumTotal">—</div>
+    <div class="insight-line" id="jSumBTC">—</div>
+    <div class="insight-line" id="jSumPnL">—</div>
+  </div>
+
+  <div class="pg-footer">
+    <div class="pf-name">BITCOIN <em>ID</em></div>
+    <div class="pf-by">by nzmlfhmy · DCA & Journal</div>
+  </div>
+</div>
+
+<!-- PAGE 4: SATOSHI -->
+<div class="page" id="page-satoshi">
+  <div class="pg-eyebrow">Unit Converter</div>
+  <div class="pg-title">Satoshi <em>Converter</em></div>
+
+  <div class="card">
+    <div class="card-label">Masukkan Nilai</div>
+    <div class="pill-row">
+      <div class="pill active" id="cMode-idr" onclick="setConvMode('idr')">Rp → Satoshi</div>
+      <div class="pill" id="cMode-sat" onclick="setConvMode('sat')">Satoshi → Rp</div>
+      <div class="pill" id="cMode-btc" onclick="setConvMode('btc')">BTC → Rp</div>
+    </div>
+    <div class="field">
+      <label class="field-lbl" id="convInputLbl">Jumlah (Rp)</label>
+      <input class="field-inp" type="number" id="convInput" placeholder="100000" oninput="calcConv()">
+    </div>
+    <div class="conv-display">
+      <div class="conv-val" id="convResult">0</div>
+      <div class="conv-unit" id="convUnit">SATOSHI</div>
+    </div>
+    <div style="font-family:var(--font-mono);font-size:9px;color:var(--t4);text-align:center;margin-top:6px" id="convPriceTag">1 BTC = Rp—</div>
+  </div>
+
+  <!-- Conversion table -->
+  <div class="card">
+    <div class="card-label">Tabel Konversi</div>
+    <div id="convTable"></div>
+  </div>
+
+  <!-- Price Alert -->
+  <div class="card" style="margin-top:16px">
+    <div class="card-label">Price Alert</div>
+    <div style="font-family:var(--font-mono);font-size:9px;color:var(--t4);margin-bottom:10px">
+      Harga Sekarang: <span id="alertCurPrice" style="color:var(--gold)">Rp —</span>
+    </div>
+    <div class="field">
+      <label class="field-lbl">Target Harga (Rp)</label>
+      <input class="field-inp" type="number" id="alertPrice" placeholder="1500000000">
+    </div>
+    <div class="pill-row">
+      <div class="pill active" id="alert-above" onclick="setAlertDir('above')">▲ Di Atas</div>
+      <div class="pill" id="alert-below" onclick="setAlertDir('below')">▼ Di Bawah</div>
+    </div>
+    <button class="btn outline" onclick="addAlert()">+ Tambah Alert</button>
+    <div id="alertList" style="margin-top:10px"></div>
+  </div>
+
+  <div class="pg-footer">
+    <div class="pf-name">BITCOIN <em>ID</em></div>
+    <div class="pf-by">by nzmlfhmy · Satoshi Converter & Alert</div>
+  </div>
+</div>
+
+<!-- PAGE 5: LAINNYA (drawer trigger) -->
+<div class="page" id="page-more">
+  <div class="pg-eyebrow">Semua Fitur</div>
+  <div class="pg-title">Menu <em>Lainnya</em></div>
+
+  <!-- Quick stats -->
+  <div class="stat-row-3">
+    <div class="stat"><div class="stat-lbl">Harga BTC</div><div class="stat-val gold" id="qPrice">—</div></div>
+    <div class="stat"><div class="stat-lbl">24H Change</div><div class="stat-val" id="qChg">—</div></div>
+    <div class="stat"><div class="stat-lbl">Epoch</div><div class="stat-val">h=4.512</div></div>
+    <div class="stat"><div class="stat-lbl">Progress</div><div class="stat-val gold">51.17%</div></div>
+    <div class="stat"><div class="stat-lbl">Halving #5</div><div class="stat-val">~712 Hari</div></div>
+    <div class="stat"><div class="stat-lbl">Hash Rate</div><div class="stat-val" id="qHash">~933 EH/s</div></div>
+  </div>
+
+  <!-- Feature grid -->
+  <div class="card">
+    <div class="card-label">Semua Fitur BITCOIN ID</div>
+    <div class="drawer-grid">
+      <div class="drawer-item" onclick="goPage('predictor')"><div class="drawer-icon">🔮</div><div class="drawer-label">Siklus Predictor</div></div>
+      <div class="drawer-item" onclick="goPage('pajak')"><div class="drawer-icon">🧮</div><div class="drawer-label">Kalkulator Pajak</div></div>
+      <div class="drawer-item" onclick="goPage('achievement')"><div class="drawer-icon">🏆</div><div class="drawer-label">Achievement</div></div>
+      <div class="drawer-item" onclick="goPage('news')"><div class="drawer-icon">📰</div><div class="drawer-label">Bitcoin News</div></div>
+      <div class="drawer-item" onclick="goPage('whale')"><div class="drawer-icon">🐋</div><div class="drawer-label">Whale Holders</div></div>
+      <div class="drawer-item" onclick="goPage('whitepaper')"><div class="drawer-icon">📄</div><div class="drawer-label">Whitepaper</div></div>
+      <div class="drawer-item" onclick="goPage('deepknow')"><div class="drawer-icon">🧬</div><div class="drawer-label">Deep Knowledge</div></div>
+      <div class="drawer-item" onclick="goPage('coldwallet')"><div class="drawer-icon">🔐</div><div class="drawer-label">Cold Wallet</div></div>
+      <div class="drawer-item" onclick="goPage('rainbow')"><div class="drawer-icon">🌈</div><div class="drawer-label">Rainbow Chart</div></div>
+      <div class="drawer-item" onclick="goPage('mvrv')"><div class="drawer-icon">📊</div><div class="drawer-label">MVRV Chart</div></div>
+      <div class="drawer-item" onclick="goPage('onchain')"><div class="drawer-icon">⛓️</div><div class="drawer-label">On-Chain Data</div></div>
+      <div class="drawer-item" onclick="goPage('m2')"><div class="drawer-icon">🌍</div><div class="drawer-label">M2 Global</div></div>
+      <div class="drawer-item" onclick="goPage('donate')"><div class="drawer-icon">☕</div><div class="drawer-label">Dukung Dev</div></div>
+      <div class="drawer-item" onclick="goPage('privacy')"><div class="drawer-icon">🔒</div><div class="drawer-label">Privacy Policy</div></div>
+    </div>
+  </div>
+
+  <div class="pg-footer">
+    <div class="pf-name">BITCOIN <em>ID</em></div>
+    <div class="pf-by">by nzmlfhmy · v1.0 · 2026</div>
+  </div>
+</div>
+
+<!-- SUB PAGES (accessed via more menu) -->
+
+<!-- PREDICTOR -->
+<div class="page" id="page-predictor">
+  <div class="pg-eyebrow">Analisis Siklus</div>
+  <div class="pg-title">Siklus <em>Predictor</em></div>
+  <div class="card">
+    <div class="card-label">Posisi Kita vs Siklus Sebelumnya</div>
+    <div class="insight">
+      <div class="insight-lbl">▸ h=4.512 di 2026 mirip dengan kapan?</div>
+      <div class="insight-line">Siklus 2016-2020: Posisi h=4.512 → BTC berada di <strong>$650</strong>. Setelah itu naik ke $20.000 (+2.977%)</div>
+      <div class="insight-line">Siklus 2020-2024: Posisi h=4.512 → BTC berada di <strong>$38.000</strong>. Setelah itu naik ke $69.000 (+82%)</div>
+      <div class="insight-line">Siklus 2024-2028: Kita sekarang di <strong>$77.000</strong>. Jika pola berulang, target $150K-500K.</div>
+    </div>
+  </div>
+  <div class="pred-card"><div class="pred-year">SIKLUS 2016-2020 · h=4.512 = $650</div><div class="pred-price">Target Siklus: $20.000</div><div class="pred-desc">+2.977% dari posisi setara. Siklus pertama setelah halving 2016 dengan adopsi awal.</div></div>
+  <div class="pred-card"><div class="pred-year">SIKLUS 2020-2024 · h=4.512 = $38.000</div><div class="pred-price">Target Siklus: $69.000</div><div class="pred-desc">+82% dari posisi setara. Siklus dengan masuknya institusi besar (MicroStrategy, Tesla).</div></div>
+  <div class="pred-card" style="border-color:var(--gold3)"><div class="pred-year">SIKLUS 2024-2028 · h=4.512 = $77.000 ← KITA</div><div class="pred-price" style="color:var(--gold)">Proyeksi: $150K-$500K</div><div class="pred-desc">Siklus ETF Bitcoin + adopsi negara + siklus 5. Potensi terbesar dalam sejarah.</div></div>
+  <div class="pg-footer"><div class="pf-name">BITCOIN <em>ID</em></div><div class="pf-by">Siklus Predictor · Data Historis</div></div>
+</div>
+
+<!-- PAJAK -->
+<div class="page" id="page-pajak">
+  <div class="pg-eyebrow">Regulasi Indonesia</div>
+  <div class="pg-title">Kalkulator <em>Pajak</em></div>
+  <div class="card">
+    <div class="card-label">PMK 50/2025 · Pajak Kripto Indonesia</div>
+    <div class="insight">
+      <div class="insight-lbl">▸ Tarif Berlaku</div>
+      <div class="insight-line"><strong>Exchange dalam negeri</strong>: 0.21% PPh 22 Final</div>
+      <div class="insight-line"><strong>Exchange luar negeri</strong>: 1.00% PPh 22 Final</div>
+      <div class="insight-line">Pajak dipotong otomatis oleh exchange saat transaksi jual.</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-label">Hitung Pajak</div>
+    <div style="font-family:var(--font-mono);font-size:9px;color:var(--t4);margin-bottom:10px">Harga BTC Sekarang: <span id="taxLivePrice" style="color:var(--gold)">Rp —</span></div>
+    <div class="pill-row">
+      <div class="pill active" id="tax-dn" onclick="setTaxEx('dn')">Exchange Dalam Negeri</div>
+      <div class="pill" id="tax-ln" onclick="setTaxEx('ln')">Exchange Luar Negeri</div>
+    </div>
+    <div class="field"><label class="field-lbl">Nilai Transaksi (Rp)</label><input class="field-inp" type="number" id="taxAmount" placeholder="10000000" oninput="calcTax()"></div>
+    <div id="taxResult" style="display:none">
+      <div class="tax-row"><div class="tax-label">Nilai Transaksi</div><div class="tax-val" id="txTrx">—</div></div>
+      <div class="tax-row"><div class="tax-label">Tarif Pajak</div><div class="tax-val" id="txRate">—</div></div>
+      <div class="tax-row"><div class="tax-label" style="color:var(--dn)">Pajak yang Dipotong</div><div class="tax-val" id="txPajak" style="color:var(--dn)">—</div></div>
+      <div class="tax-row"><div class="tax-label">Diterima Bersih</div><div class="tax-val up" id="txBersih">—</div></div>
+    </div>
+  </div>
+  <div class="pg-footer"><div class="pf-name">BITCOIN <em>ID</em></div><div class="pf-by">Kalkulator Pajak Bitcoin Indonesia</div></div>
+</div>
+
+<!-- ACHIEVEMENT -->
+<div class="page" id="page-achievement">
+  <div class="pg-eyebrow">Gamifikasi</div>
+  <div class="pg-title">Achievement <em>Badges</em></div>
+  <div class="card">
+    <div class="card-label">Koleksi Badge</div>
+    <div class="badge-grid" id="badgeGrid"></div>
+  </div>
+  <div class="pg-footer"><div class="pf-name">BITCOIN <em>ID</em></div><div class="pf-by">Kumpulkan semua badge!</div></div>
+</div>
+
+<!-- NEWS -->
+<div class="page" id="page-news">
+  <div class="pg-eyebrow">Berita Terkini</div>
+  <div class="pg-title">Bitcoin <em>News</em></div>
+  <div id="newsList">
+    <div class="chart-loading"><div class="ch-bar"><div class="ch-fill"></div></div><div class="ch-txt">Memuat berita...</div></div>
+  </div>
+  <div class="pg-footer"><div class="pf-name">BITCOIN <em>ID</em></div><div class="pf-by">Sumber: CryptoPanic API</div></div>
+</div>
+
+<!-- WHALE -->
+<div class="page" id="page-whale">
+  <div class="pg-eyebrow">On-Chain Data</div>
+  <div class="pg-title">Whale <em>Holders</em></div>
+  <div class="insight"><div class="insight-lbl">▸ Fakta Distribusi Bitcoin</div>
+    <div class="insight-line">Top <strong>1% wallet</strong> memegang ~90% dari seluruh Bitcoin yang beredar.</div>
+    <div class="insight-line"><strong>2.000 whale</strong> mengontrol lebih dari 40% supply — pergerakan mereka menggerakkan harga.</div>
+  </div>
+  <div class="card"><div class="card-label">Top Bitcoin Holders (Estimasi)</div><div id="whaleList"></div></div>
+  <div class="pg-footer"><div class="pf-name">BITCOIN <em>ID</em></div><div class="pf-by">Data estimasi publik</div></div>
+</div>
+
+<!-- WHITEPAPER -->
+<div class="page" id="page-whitepaper">
+  <div class="pg-eyebrow">Dokumen Asli · Terjemahan Resmi</div>
+  <div class="pg-title">Bitcoin <em>Whitepaper</em></div>
+  <div class="insight"><div class="insight-lbl">▸ Satoshi Nakamoto · 31 Oktober 2008</div>
+    <div class="insight-line">"Bitcoin: A Peer-to-Peer Electronic Cash System" — dokumen yang mengubah dunia keuangan.</div>
+  </div>
+  <div id="wpList"></div>
+  <div class="pg-footer"><div class="pf-name">BITCOIN <em>ID</em></div><div class="pf-by">Whitepaper Bitcoin · Bahasa Indonesia</div></div>
+</div>
+
+<!-- DEEP KNOWLEDGE -->
+<div class="page" id="page-deepknow">
+  <div class="pg-eyebrow">Edukasi Mendalam</div>
+  <div class="pg-title">Deep <em>Knowledge</em></div>
+  <div id="dkList"></div>
+  <div class="pg-footer"><div class="pf-name">BITCOIN <em>ID</em></div><div class="pf-by">Bitcoin Intelligence · Lapisan Terdalam</div></div>
+</div>
+
+<!-- COLD WALLET -->
+<div class="page" id="page-coldwallet">
+  <div class="pg-eyebrow">Self Custody · Keamanan Bitcoin</div>
+  <div class="pg-title">Cold <em>Wallet</em></div>
+  <div class="insight" style="border-color:var(--dn);border-left-color:var(--dn)">
+    <div class="insight-lbl" style="color:var(--dn)">▸ PRINSIP TERPENTING</div>
+    <div class="insight-line"><em>"Not your keys, not your coins."</em></div>
+    <div class="insight-line">Bitcoin di exchange BUKAN milikmu sepenuhnya. Exchange bisa bangkrut, diretas, atau diblokir pemerintah.</div>
+  </div>
+  <div class="card"><div class="card-label">Rekomendasi Hardware Wallet</div>
+    <div class="hw-card"><div class="hw-name">Ledger Nano X</div><div class="hw-price">~$149 USD</div><div class="hw-tags"><span class="hw-tag">Bluetooth</span><span class="hw-tag">5.500+ aset</span><span class="hw-tag">Populer</span></div><div class="hw-desc">Pilihan paling populer. Koneksi Bluetooth ke HP. Cocok untuk pemula.</div></div>
+    <div class="hw-card"><div class="hw-name">Trezor Model T</div><div class="hw-price">~$179 USD</div><div class="hw-tags"><span class="hw-tag">Open Source</span><span class="hw-tag">Touchscreen</span><span class="hw-tag">Terpercaya</span></div><div class="hw-desc">Open source penuh. Komunitas Bitcoin sangat mempercayai Trezor. Layar sentuh.</div></div>
+    <div class="hw-card"><div class="hw-name">Coldcard Mk4</div><div class="hw-price">~$149 USD</div><div class="hw-tags"><span class="hw-tag">Bitcoin Only</span><span class="hw-tag">Air-Gapped</span><span class="hw-tag">Advanced</span></div><div class="hw-desc">Untuk Bitcoiner hardcore. Air-gapped, tidak perlu USB. Paling aman.</div></div>
+  </div>
+  <div class="card"><div class="card-label">Panduan Seed Phrase</div>
+    <div class="insight"><div class="insight-lbl">▸ Yang HARUS Dilakukan</div>
+      <div class="insight-line">Tulis tangan di kertas — <strong>minimal 2 salinan</strong></div>
+      <div class="insight-line">Simpan di tempat aman berbeda (rumah & brankas bank)</div>
+      <div class="insight-line">Pertimbangkan backup di <strong>metal plate</strong> (tahan api & air)</div>
+    </div>
+    <div class="insight" style="border-color:var(--dn);border-left-color:var(--dn);margin-top:8px"><div class="insight-lbl" style="color:var(--dn)">▸ Yang TIDAK BOLEH Dilakukan</div>
+      <div class="insight-line">Foto seed phrase dengan HP — bisa sync ke cloud!</div>
+      <div class="insight-line">Simpan di Notes, Google Drive, atau email</div>
+      <div class="insight-line">Beritahu siapapun seed phrase-mu — <strong>SIAPAPUN!</strong></div>
+    </div>
+  </div>
+  <div class="pg-footer"><div class="pf-name">BITCOIN <em>ID</em></div><div class="pf-by">Self Custody Guide · Bitcoin Intelligence</div></div>
+</div>
+
+<!-- RAINBOW CHART -->
+<div class="page" id="page-rainbow">
+  <div class="pg-eyebrow">Logarithmic Regression Model</div>
+  <div class="pg-title">Rainbow <em>Chart</em></div>
+  <div id="rainbowHero" class="card" style="text-align:center;padding:20px">
+    <div style="font-family:var(--font-mono);font-size:8px;color:var(--t4);letter-spacing:.2em;margin-bottom:8px">ZONA BITCOIN SEKARANG</div>
+    <div style="font-family:var(--font-display);font-size:24px;font-weight:700;margin-bottom:6px" id="rbZoneName">Memuat...</div>
+    <div style="font-family:var(--font-mono);font-size:11px;color:var(--t3)" id="rbZoneDesc">—</div>
+  </div>
+  <div class="chart-wrap">
+    <div class="card-label">Rainbow Price Chart · Log Scale</div>
+    <div id="rbLoading" class="chart-loading" style="height:260px"><div class="ch-bar"><div class="ch-fill"></div></div><div class="ch-txt">Memuat rainbow chart...</div></div>
+    <div class="chart-area" style="height:260px"><canvas id="rainbowChart"></canvas></div>
+  </div>
+  <div class="card"><div class="card-label">9 Zona Rainbow</div><div id="rbZones"></div></div>
+  <div class="insight"><div class="insight-lbl">▸ Cara Baca Rainbow Chart</div>
+    <div class="insight-line"><strong style="color:#1565c0">Zona Biru</strong> = Bitcoin sangat murah. Beli agresif. Zona bottom historis.</div>
+    <div class="insight-line"><strong style="color:#22c55e">Zona Hijau</strong> = Fair value. DCA optimal. Risiko rendah.</div>
+    <div class="insight-line"><strong style="color:#ffd700">Zona Kuning</strong> = Mulai mahal. Kurangi pembelian baru.</div>
+    <div class="insight-line"><strong style="color:#ef4444">Zona Merah</strong> = Euforia ekstrem. Jual sebagian. Jangan tambah posisi.</div>
+  </div>
+  <div class="pg-footer"><div class="pf-name">BITCOIN <em>ID</em></div><div class="pf-by">Rainbow Chart · Log Regression</div></div>
+</div>
+
+<!-- MVRV -->
+<div class="page" id="page-mvrv">
+  <div class="pg-eyebrow">On-Chain Analytics</div>
+  <div class="pg-title">MVRV <em>Chart</em></div>
+  <div class="card" style="text-align:center;padding:20px">
+    <div style="font-family:var(--font-mono);font-size:10px;color:var(--silver);letter-spacing:.2em;margin-bottom:8px;font-weight:500">MVRV RATIO · LIVE</div>
+    <div style="font-family:var(--font-display);font-size:62px;font-weight:700;line-height:1;margin-bottom:8px;color:#FFFFFF" id="mvrvVal">—</div>
+    <div style="font-family:var(--font-mono);font-size:11px;padding:6px 16px;display:inline-block;border:1px solid currentColor;font-weight:600" id="mvrvZone">Memuat...</div>
+    <div class="oc-gauge" style="margin:16px 0 6px"><div class="oc-needle" id="mvrvNeedle" style="left:0%"></div></div>
+    <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:9px;color:var(--silver2)">
+      <span style="color:var(--blue)">0 Bottom</span><span style="color:var(--up)">1 Fair</span><span style="color:var(--gold)">2 Bull</span><span style="color:var(--dn)">3.5+ Top</span>
+    </div>
+  </div>
+  <div class="chart-wrap">
+    <div class="card-label">MVRV Ratio · Historis</div>
+    <div class="tf-row" style="border:none;margin-bottom:8px">
+      <button class="tf-btn active" onclick="loadMVRV(365,this)">1T</button>
+      <button class="tf-btn" onclick="loadMVRV(730,this)">2T</button>
+      <button class="tf-btn" onclick="loadMVRV(0,this)">ALL</button>
+    </div>
+    <div id="mvrvLoading" class="chart-loading" style="height:260px"><div class="ch-bar"><div class="ch-fill"></div></div><div class="ch-txt">Memuat MVRV...</div></div>
+    <div class="chart-area" style="height:260px"><canvas id="mvrvChart"></canvas></div>
+  </div>
+  <div class="card"><div class="card-label">Panduan Zona MVRV</div>
+    <div class="oc-zone-row"><div class="oc-zone-dot" style="background:#1565c0"></div><div class="oc-zone-label" style="color:#5B8FC4">&lt;1.0 BOTTOM</div><div class="oc-zone-desc">Beli agresif. Terjadi saat bear market dalam.</div></div>
+    <div class="oc-zone-row" style="background:rgba(34,197,94,0.05);border:1px solid rgba(34,197,94,0.2)"><div class="oc-zone-dot" style="background:#22c55e"></div><div class="oc-zone-label" style="color:#22c55e">1-2 FAIR ← KITA</div><div class="oc-zone-desc">Zona akumulasi optimal. DCA konsisten.</div></div>
+    <div class="oc-zone-row"><div class="oc-zone-dot" style="background:#ffd700"></div><div class="oc-zone-label" style="color:#ffd700">2-3.5 BULL</div><div class="oc-zone-desc">Bull market aktif. Siapkan exit strategy.</div></div>
+    <div class="oc-zone-row"><div class="oc-zone-dot" style="background:#ef4444"></div><div class="oc-zone-label" style="color:#ef4444">&gt;3.5 DANGER</div><div class="oc-zone-desc">Euforia ekstrem. Jual sebagian besar.</div></div>
+  </div>
+  <div class="pg-footer"><div class="pf-name">BITCOIN <em>ID</em></div><div class="pf-by">MVRV Intelligence · Data: CoinGecko</div></div>
+</div>
+
+<!-- ON-CHAIN DATA -->
+<div class="page" id="page-onchain">
+  <div class="pg-eyebrow">Analisis Blockchain</div>
+  <div class="pg-title">On-Chain <em>Intelligence</em></div>
+  <div class="insight"><div class="insight-lbl">▸ Data Langsung dari Blockchain</div><div class="insight-line">On-chain data adalah sinyal paling jujur — bukan dari order book exchange, bukan dari sentimen media.</div></div>
+  <div class="stat-row">
+    <div class="stat"><div class="stat-lbl">MVRV Ratio</div><div class="stat-val gold">~1.8</div></div>
+    <div class="stat"><div class="stat-lbl">SOPR</div><div class="stat-val up">~1.01</div></div>
+    <div class="stat"><div class="stat-lbl">Hash Rate</div><div class="stat-val">933 EH/s</div></div>
+    <div class="stat"><div class="stat-lbl">Difficulty</div><div class="stat-val">135.6T</div></div>
+  </div>
+  <div class="card"><div class="card-label">Checklist Signal — Mei 2026</div>
+    <div class="oc-zone-row" style="background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.15)"><div class="oc-zone-dot" style="background:#22c55e"></div><div class="oc-zone-label" style="color:#22c55e">MVRV ~1.8</div><div class="oc-zone-desc">Zona akumulasi. Belum euforia. ✅ Bullish</div></div>
+    <div class="oc-zone-row" style="background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.15)"><div class="oc-zone-dot" style="background:#22c55e"></div><div class="oc-zone-label" style="color:#22c55e">SOPR ~1.01</div><div class="oc-zone-desc">Recovery. Momentum membangun. ✅ Bullish</div></div>
+    <div class="oc-zone-row" style="background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.15)"><div class="oc-zone-dot" style="background:#22c55e"></div><div class="oc-zone-label" style="color:#22c55e">Pi Cycle</div><div class="oc-zone-desc">Belum cross. Top belum terlihat. ✅ Bullish</div></div>
+    <div class="oc-zone-row" style="background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.15)"><div class="oc-zone-dot" style="background:#22c55e"></div><div class="oc-zone-label" style="color:#22c55e">Hash Rate</div><div class="oc-zone-desc">ATH baru. Jaringan makin kuat. ✅ Bullish</div></div>
+    <div style="font-family:var(--font-mono);font-size:9px;color:var(--gold);text-align:center;margin-top:12px;padding:8px;background:rgba(255,215,0,0.06);border:1px solid var(--line2)">SKOR: 4/4 BULLISH 🟢</div>
+  </div>
+  <div class="pg-footer"><div class="pf-name">BITCOIN <em>ID</em></div><div class="pf-by">On-Chain Intelligence · April 2026</div></div>
+</div>
+
+<!-- M2 GLOBAL -->
+<div class="page" id="page-m2">
+  <div class="pg-eyebrow">Makroekonomi Global</div>
+  <div class="pg-title">M2 Money <em>Supply</em></div>
+  <div class="insight"><div class="insight-lbl">▸ Apa itu M2?</div><div class="insight-line">M2 adalah total uang yang beredar di dunia — termasuk tabungan, deposito, dan kas. Ketika M2 naik, likuiditas global bertambah → Bitcoin cenderung naik. Ini adalah salah satu korelasi terkuat dalam pasar aset.</div></div>
+  <div class="card"><div class="card-label">Data Makro Global · 2026</div>
+    <div class="m2-row"><div class="m2-label">Global M2 Money Supply</div><div class="m2-val" style="color:var(--gold)">~$108 Triliun</div></div>
+    <div class="m2-row"><div class="m2-label">Fed Rate (AS)</div><div class="m2-val">4.25-4.50%</div></div>
+    <div class="m2-row"><div class="m2-label">US M2 Growth YoY</div><div class="m2-val" style="color:var(--up)">+3.8%</div></div>
+    <div class="m2-row"><div class="m2-label">DXY (Dollar Index)</div><div class="m2-val">~99.8</div></div>
+    <div class="m2-row"><div class="m2-label">Inflasi AS (CPI)</div><div class="m2-val">2.4%</div></div>
+    <div class="m2-row"><div class="m2-label">Inflasi Indonesia</div><div class="m2-val">2.48%</div></div>
+  </div>
+  <div class="insight"><div class="insight-lbl">▸ Korelasi M2 dan Bitcoin</div>
+    <div class="insight-line">Setiap kali M2 global naik signifikan → Bitcoin biasanya naik 6-12 bulan kemudian.</div>
+    <div class="insight-line">DXY turun → Dollar melemah → Aset hard money (emas & Bitcoin) naik.</div>
+    <div class="insight-line">Fed mulai potong suku bunga → Likuiditas bertambah → Bullish Bitcoin.</div>
+  </div>
+  <div class="pg-footer"><div class="pf-name">BITCOIN <em>ID</em></div><div class="pf-by">Makroekonomi Global · Update Berkala</div></div>
+</div>
+
+<!-- DONATE -->
+<div class="page" id="page-donate">
+  <div class="pg-eyebrow">Support Developer</div>
+  <div class="pg-title">Dukung <em>Dev</em></div>
+  <div class="card" style="text-align:center">
+    <div class="card-label">Nazmul Fahmi · BITCOIN ID</div>
+    <div style="font-size:13px;color:var(--t3);line-height:1.8;margin-bottom:16px">Aplikasi ini gratis dan akan selalu gratis. Jika kamu merasa terbantu, dukung developer dengan secangkir kopi Bitcoin ☕</div>
+    <div style="margin:0 auto;max-width:180px">
+      <div class="qr-wrap">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=bc1qptx8ey8znglvsw93z4mfd54cfgd5lcwzvpcg2d&bgcolor=ffffff&color=000000" alt="Bitcoin QR" style="width:100%">
+      </div>
+    </div>
+    <div style="font-family:var(--font-mono);font-size:8px;color:var(--t4);letter-spacing:.1em;margin-bottom:6px">Bitcoin Address</div>
+    <div class="addr-box" onclick="copyAddr()">bc1qptx8ey8znglvsw93z4mfd54cfgd5lcwzvpcg2d</div>
+    <button class="btn outline" onclick="copyAddr()" style="margin-top:8px">📋 Salin Alamat</button>
+    <div style="margin-top:20px;font-family:var(--font-mono);font-size:9px;color:var(--t4);line-height:1.8">
+      <div>Developer: <span style="color:var(--gold)">Nazmul Fahmi</span></div>
+      <div>TikTok: <span style="color:var(--t2)">@nzmlfhmy</span></div>
+      <div>Brand: <span style="color:var(--t2)">BANTENBITCOIN</span></div>
+    </div>
+  </div>
+  <div class="pg-footer"><div class="pf-name">BITCOIN <em>ID</em></div><div class="pf-by">Terima kasih atas dukunganmu ₿</div></div>
+</div>
+
+<!-- ═══ INSTALL BANNER ══════════════════════════════ -->
+<div id="installBanner" style="display:none;position:fixed;bottom:calc(var(--nav-h) + var(--safe-bot) + 8px);left:12px;right:12px;z-index:400;background:var(--bg3);border:1px solid var(--gold3);padding:12px 14px;align-items:center;gap:10px">
+  <div style="flex:1">
+    <div style="font-family:var(--font-mono);font-size:8px;color:var(--gold);letter-spacing:.2em;margin-bottom:2px">INSTALL APP</div>
+    <div style="font-size:11px;color:var(--t2)">Tambahkan BITCOIN ID ke Home Screen</div>
+  </div>
+  <button onclick="installApp()" style="background:var(--gold);color:var(--bg);border:none;padding:7px 14px;font-family:var(--font-mono);font-size:9px;font-weight:700;cursor:pointer;letter-spacing:.1em">INSTALL</button>
+  <button onclick="this.parentElement.style.display='none'" style="background:transparent;border:none;color:var(--t4);cursor:pointer;font-size:16px;padding:0 4px">×</button>
+</div>
+
+<!-- ═══ PAGE: PRIVACY POLICY ════════════════════════ -->
+<div class="page" id="page-privacy">
+  <div class="pg-eyebrow">Legal · Transparansi</div>
+  <div class="pg-title">Privacy <em>Policy</em></div>
+
+  <!-- Last updated -->
+  <div style="font-family:var(--font-mono);font-size:9px;color:var(--t4);margin-bottom:16px;padding:10px 12px;background:var(--bg3);border:1px solid var(--line);display:flex;justify-content:space-between">
+    <span>Berlaku sejak: <strong style="color:var(--t2)">1 Mei 2026</strong></span>
+    <span>Versi: <strong style="color:var(--gold)">1.0</strong></span>
+  </div>
+
+  <!-- Ringkasan singkat -->
+  <div class="insight">
+    <div class="insight-lbl">▸ Ringkasan Singkat</div>
+    <div class="insight-line"><strong>BITCOIN ID tidak mengumpulkan data pribadimu.</strong> Tidak ada akun, tidak ada login, tidak ada server kami yang menerima datamu.</div>
+    <div class="insight-line">Semua data tersimpan <strong>hanya di HP-mu sendiri</strong> menggunakan LocalStorage browser. Kami tidak bisa membaca data tersebut.</div>
+    <div class="insight-line">App ini adalah <strong>PWA (Progressive Web App)</strong> yang berjalan murni di browser — tidak ada backend server yang menyimpan informasimu.</div>
+  </div>
+
+  <!-- Section 1 -->
+  <div class="card">
+    <div class="card-label">1. Informasi yang Dikumpulkan</div>
+    <div style="font-size:13px;color:var(--t2);line-height:1.8">
+      <p style="margin-bottom:10px"><strong style="color:var(--gold)">BITCOIN ID tidak mengumpulkan informasi pribadi apapun.</strong></p>
+      <p style="margin-bottom:8px">Kami tidak meminta, menyimpan, atau memproses:</p>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px">
+        <div style="display:flex;gap:8px"><span style="color:var(--up)">✓</span><span>Nama, email, atau nomor telepon</span></div>
+        <div style="display:flex;gap:8px"><span style="color:var(--up)">✓</span><span>Lokasi atau alamat IP</span></div>
+        <div style="display:flex;gap:8px"><span style="color:var(--up)">✓</span><span>Data finansial atau rekening bank</span></div>
+        <div style="display:flex;gap:8px"><span style="color:var(--up)">✓</span><span>Identitas atau dokumen apapun</span></div>
+        <div style="display:flex;gap:8px"><span style="color:var(--up)">✓</span><span>Riwayat browsing atau aktivitas</span></div>
+      </div>
+      <p style="color:var(--t3);font-size:12px">Data yang kamu masukkan di app (DCA Journal, Price Alert, dll) <strong style="color:var(--t2)">hanya tersimpan di perangkatmu</strong> melalui browser LocalStorage dan tidak pernah dikirim ke server manapun.</p>
+    </div>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="card">
+    <div class="card-label">2. Data yang Tersimpan di Perangkatmu</div>
+    <div style="font-size:13px;color:var(--t2);line-height:1.8">
+      <p style="margin-bottom:10px">App ini menyimpan data berikut <strong>secara lokal di HP-mu</strong> menggunakan LocalStorage:</p>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="padding:10px;background:var(--bg4);border:1px solid var(--line)">
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--gold);margin-bottom:4px">bid-journal</div>
+          <div style="font-size:12px;color:var(--t3)">Catatan DCA Journal yang kamu input sendiri</div>
+        </div>
+        <div style="padding:10px;background:var(--bg4);border:1px solid var(--line)">
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--gold);margin-bottom:4px">bid-alerts</div>
+          <div style="font-size:12px;color:var(--t3)">Price alert yang kamu set sendiri</div>
+        </div>
+        <div style="padding:10px;background:var(--bg4);border:1px solid var(--line)">
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--gold);margin-bottom:4px">bid-badges</div>
+          <div style="font-size:12px;color:var(--t3)">Achievement badge yang sudah kamu unlock</div>
+        </div>
+      </div>
+      <p style="margin-top:10px;font-size:12px;color:var(--t3)">Kamu bisa menghapus semua data ini kapanpun melalui pengaturan browser → Clear Site Data.</p>
+    </div>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="card">
+    <div class="card-label">3. API Pihak Ketiga</div>
+    <div style="font-size:13px;color:var(--t2);line-height:1.8">
+      <p style="margin-bottom:10px">App ini mengambil data dari API publik berikut untuk menampilkan informasi pasar:</p>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="padding:10px;background:var(--bg4);border:1px solid var(--line)">
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--silver);margin-bottom:4px">CoinGecko API — coingecko.com</div>
+          <div style="font-size:12px;color:var(--t3)">Harga Bitcoin, chart, market data. Data publik, tidak memerlukan autentikasi.</div>
+        </div>
+        <div style="padding:10px;background:var(--bg4);border:1px solid var(--line)">
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--silver);margin-bottom:4px">Alternative.me — alternative.me</div>
+          <div style="font-size:12px;color:var(--t3)">Fear & Greed Index. Data publik.</div>
+        </div>
+        <div style="padding:10px;background:var(--bg4);border:1px solid var(--line)">
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--silver);margin-bottom:4px">blockchain.info — blockchain.info</div>
+          <div style="font-size:12px;color:var(--t3)">Block height & hash rate. Data blockchain publik.</div>
+        </div>
+        <div style="padding:10px;background:var(--bg4);border:1px solid var(--line)">
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--silver);margin-bottom:4px">CryptoPanic — cryptopanic.com</div>
+          <div style="font-size:12px;color:var(--t3)">Bitcoin news. Data publik.</div>
+        </div>
+      </div>
+      <p style="margin-top:10px;font-size:12px;color:var(--t3)">Request ke API di atas dilakukan langsung dari browser-mu. Kami tidak menjadi perantara dan tidak menyimpan response-nya.</p>
+    </div>
+  </div>
+
+  <!-- Section 4 -->
+  <div class="card">
+    <div class="card-label">4. Keamanan Data</div>
+    <div style="font-size:13px;color:var(--t2);line-height:1.8">
+      <p style="margin-bottom:8px">Karena kami tidak mengumpulkan data, tidak ada risiko kebocoran data dari sisi kami.</p>
+      <p style="margin-bottom:8px">Data lokalmu (Journal, Alert, Badge) dilindungi oleh:</p>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;gap:8px"><span style="color:var(--gold)">→</span><span>Keamanan browser/HP-mu sendiri</span></div>
+        <div style="display:flex;gap:8px"><span style="color:var(--gold)">→</span><span>Isolasi domain browser (same-origin policy)</span></div>
+        <div style="display:flex;gap:8px"><span style="color:var(--gold)">→</span><span>HTTPS encryption untuk semua request API</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5 -->
+  <div class="card">
+    <div class="card-label">5. Iklan & Tracking</div>
+    <div style="font-size:13px;color:var(--t2);line-height:1.8">
+      <p>BITCOIN ID <strong style="color:var(--gold)">tidak menampilkan iklan</strong> dan <strong style="color:var(--gold)">tidak menggunakan alat tracking</strong> apapun seperti:</p>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">
+        <div style="display:flex;gap:8px"><span style="color:var(--up)">✓</span><span>Tidak ada Google Analytics</span></div>
+        <div style="display:flex;gap:8px"><span style="color:var(--up)">✓</span><span>Tidak ada Facebook Pixel</span></div>
+        <div style="display:flex;gap:8px"><span style="color:var(--up)">✓</span><span>Tidak ada cookies tracking</span></div>
+        <div style="display:flex;gap:8px"><span style="color:var(--up)">✓</span><span>Tidak ada fingerprinting</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 6 -->
+  <div class="card">
+    <div class="card-label">6. Hak Penggunanya</div>
+    <div style="font-size:13px;color:var(--t2);line-height:1.8">
+      <p style="margin-bottom:8px">Kamu memiliki kendali penuh atas data lokalmu:</p>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;gap:8px"><span style="color:var(--gold)">→</span><span><strong style="color:var(--t1)">Hapus data:</strong> Bersihkan LocalStorage melalui pengaturan browser</span></div>
+        <div style="display:flex;gap:8px"><span style="color:var(--gold)">→</span><span><strong style="color:var(--t1)">Uninstall:</strong> Hapus app dari home screen kapanpun</span></div>
+        <div style="display:flex;gap:8px"><span style="color:var(--gold)">→</span><span><strong style="color:var(--t1)">Offline:</strong> App bisa digunakan tanpa koneksi (data cached)</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 7 -->
+  <div class="card">
+    <div class="card-label">7. Perubahan Privacy Policy</div>
+    <div style="font-size:13px;color:var(--t2);line-height:1.8">
+      <p>Jika ada perubahan pada Privacy Policy ini, akan diumumkan melalui update app dengan tanggal efektif yang jelas. Penggunaan berkelanjutan setelah perubahan dianggap sebagai persetujuan.</p>
+    </div>
+  </div>
+
+  <!-- Contact -->
+  <div class="card">
+    <div class="card-label">8. Kontak</div>
+    <div style="font-size:13px;color:var(--t2);line-height:1.8">
+      <p style="margin-bottom:8px">Pertanyaan tentang Privacy Policy ini dapat dihubungi melalui:</p>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="padding:10px;background:var(--bg4);border:1px solid var(--line)">
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--t4);margin-bottom:2px">DEVELOPER</div>
+          <div style="font-size:13px;color:var(--gold);font-weight:600">Nazmul Fahmi</div>
+        </div>
+        <div style="padding:10px;background:var(--bg4);border:1px solid var(--line)">
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--t4);margin-bottom:2px">TIKTOK</div>
+          <div style="font-size:13px;color:var(--t1)">@nzmlfhmy</div>
+        </div>
+        <div style="padding:10px;background:var(--bg4);border:1px solid var(--line)">
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--t4);margin-bottom:2px">BRAND</div>
+          <div style="font-size:13px;color:var(--t1)">BANTENBITCOIN · Banten, Indonesia</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <div class="insight-lbl">▸ Komitmen Kami</div>
+    <div class="insight-line">BITCOIN ID dibangun dengan filosofi <strong>privacy by design</strong> — privasi bukan tambahan, tapi fondasi utama app ini.</div>
+    <div class="insight-line">App ini gratis, tanpa iklan, dan tanpa mengumpulkan datamu — karena kami percaya <strong>data Bitcoin-mu adalah milikmu, bukan milik kami.</strong></div>
+  </div>
+
+  <div class="pg-footer">
+    <div class="pf-name">BITCOIN <em>ID</em></div>
+    <div class="pf-by">Privacy Policy · Berlaku 1 Mei 2026 · v1.0</div>
+  </div>
+</div>
+
+<!-- ═══ BOTTOM NAV ═══════════════════════════════════ -->
+<nav id="bottomNav">
+  <div class="nav-item active" id="nav-halving" onclick="goPage('halving')">
+    <div class="nav-icon">⏱️</div>
+    <div class="nav-label">HALVING</div>
+  </div>
+  <div class="nav-item" id="nav-chart" onclick="goPage('chart')">
+    <div class="nav-icon">📈</div>
+    <div class="nav-label">CHART</div>
+  </div>
+  <div class="nav-item" id="nav-dca" onclick="goPage('dca')">
+    <div class="nav-icon">🧮</div>
+    <div class="nav-label">DCA</div>
+  </div>
+  <div class="nav-item" id="nav-satoshi" onclick="goPage('satoshi')">
+    <div class="nav-icon">₿</div>
+    <div class="nav-label">SATOSHI</div>
+  </div>
+  <div class="nav-item" id="nav-more" onclick="goPage('more')">
+    <div class="nav-icon">☰</div>
+    <div class="nav-label">LAINNYA</div>
+  </div>
+</nav>
+
+<!-- ═══ TOAST ════════════════════════════════════════ -->
+<div id="toast"></div>
+
+
+<script>
+'use strict';
+/* ═══════════════════════════════════════════════════════
+   BITCOIN ID — JAVASCRIPT ENGINE
+   Clean, no duplicates, fully tested
+═══════════════════════════════════════════════════════ */
+
+/* ── ANTI-ZOOM (JavaScript layer — required for iOS) ── */
+document.addEventListener('gesturestart',  e => e.preventDefault(), {passive:false});
+document.addEventListener('gesturechange', e => e.preventDefault(), {passive:false});
+document.addEventListener('gestureend',    e => e.preventDefault(), {passive:false});
+document.addEventListener('touchstart', e => { if(e.touches.length > 1) e.preventDefault(); }, {passive:false});
+document.addEventListener('touchmove',  e => { if(e.touches.length > 1) e.preventDefault(); }, {passive:false});
+
+/* ── GLOBAL STATE ───────────────────────────────────── */
+let btcUSD = 77000, btcIDR = 1360000000, btcChange = 0;
+let chKurs = Math.round(btcIDR / btcUSD);
+let chartInst = null, volInst = null, candleInst = null, mvrvInst = null, rainbowInst = null;
+let currentPage = 'halving';
+let alertDir = 'above', taxEx = 'dn', convMode = 'idr';
+let journalEntries = [], priceAlerts = [], badges = {};
+
+/* ── LOCALSTORAGE ───────────────────────────────────── */
+function lsGet(k) { try { return JSON.parse(localStorage.getItem('bid-'+k)); } catch(e) { return null; } }
+function lsSet(k,v) { try { localStorage.setItem('bid-'+k, JSON.stringify(v)); } catch(e) {} }
+
+/* ── UTILITY ────────────────────────────────────────── */
+function fmtN(n)  { if(!n) return '0'; if(n>=1e12) return (n/1e12).toFixed(2)+'T'; if(n>=1e9) return (n/1e9).toFixed(2)+'M'; if(n>=1e6) return (n/1e6).toFixed(1)+'Jt'; return Math.round(n).toLocaleString('id'); }
+function fmtUS(n) { if(!n) return '$0'; if(n>=1e12) return '$'+(n/1e12).toFixed(2)+'T'; if(n>=1e9) return '$'+(n/1e9).toFixed(2)+'B'; if(n>=1e6) return '$'+(n/1e6).toFixed(2)+'M'; return '$'+n.toLocaleString('en'); }
+function fmtIDR(n) { return 'Rp'+fmtN(n); }
+function pct(n)   { return (n>=0?'+':'')+n.toFixed(2)+'%'; }
+function el(id)   { return document.getElementById(id); }
+
+function showToast(msg, dur=2500) {
+  const t = el('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), dur);
+}
+
+/* ── PAGE NAVIGATION ────────────────────────────────── */
+function goPage(id) {
+  // Hide all pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  // Show target
+  const pg = el('page-'+id);
+  if (!pg) return;
+  pg.classList.add('active');
+  currentPage = id;
+
+  // Update nav
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const navItem = el('nav-'+id);
+  if (navItem) navItem.classList.add('active');
+
+  // Scroll to top
+  window.scrollTo(0, 0);
+
+  // Page-specific init
+  if (id === 'chart')      { initChart(); }
+  if (id === 'dca')        { el('dcaPrice').value = Math.round(btcIDR); el('taxLivePrice') && (el('taxLivePrice').textContent = fmtIDR(btcIDR)); }
+  if (id === 'satoshi')    { calcConv(); buildConvTable(); el('alertCurPrice').textContent = fmtIDR(btcIDR); renderAlerts(); }
+  if (id === 'more')       { updateQuickStats(); }
+  if (id === 'achievement'){ renderBadges(); }
+  if (id === 'news')       { loadNews(); }
+  if (id === 'whale')      { renderWhales(); }
+  if (id === 'whitepaper') { renderWhitepaper(); unlockBadge('wp'); }
+  if (id === 'deepknow')   { renderDeepKnow(); unlockBadge('scholar'); }
+  if (id === 'pajak')      { el('taxLivePrice').textContent = fmtIDR(btcIDR); }
+  if (id === 'rainbow')    { initRainbow(); }
+  if (id === 'mvrv')       { initMVRV(); loadMVRV(365); }
+  if (id === 'coldwallet') { unlockBadge('custody'); }
+  if (id === 'donate')     { unlockBadge('supporter'); }
+  if (id === 'privacy')    { /* no special init needed */ }
+}
+
+/* ── FETCH PRICE ────────────────────────────────────── */
+/* ── LIVE BLOCKCHAIN DATA ───────────────────────────────
+   Sources:
+   - blockchain.info/q/getblockcount  → block height
+   - blockchain.info/q/hashrate       → hash rate (GH/s)
+   - blockchain.info/q/bcperblock     → block reward
+   Update: setiap 10 menit (tidak terlalu sering agar
+   tidak kena rate limit & tidak ganggu data lain)
+═══════════════════════════════════════════════════════ */
+const HALVING4_BLOCK = 840000;
+const HALVING5_BLOCK = 1050000;
+
+async function fetchBlockchainData() {
+  try {
+    // Fetch block height
+    const r = await fetch('https://blockchain.info/q/getblockcount', {
+      headers: { 'Accept': 'text/plain' }
+    });
+    if (!r.ok) throw new Error('Block fetch failed');
+    const blockHeight = parseInt(await r.text());
+    if (isNaN(blockHeight) || blockHeight < 800000) throw new Error('Invalid block');
+
+    // Hitung h-value
+    const h = 4 + (blockHeight - HALVING4_BLOCK) / 210000;
+    const progress = ((blockHeight - HALVING4_BLOCK) / (HALVING5_BLOCK - HALVING4_BLOCK) * 100);
+    const blocksLeft = HALVING5_BLOCK - blockHeight;
+    const daysLeft = Math.round(blocksLeft * 10 / 60 / 24);
+
+    // Update semua elemen — safe dengan null check
+    const safe = (id, fn) => { const e = document.getElementById(id); if(e) fn(e); };
+
+    // Block height display
+    safe('blockHeight', e => e.textContent = blockHeight.toLocaleString('id'));
+
+    // H-value display
+    safe('hvDisplay',  e => e.textContent = 'h = '+h.toFixed(5));
+    safe('ck-hval',    e => e.textContent = 'h='+h.toFixed(3));
+
+    // Countdown
+    safe('halvingCountdown', e => e.textContent = '~'+daysLeft+' hari menuju Halving ke-5');
+
+    // Progress bar
+    const pct = Math.min(Math.max(progress, 0), 100).toFixed(2);
+    safe('progFill', e => e.style.width = pct+'%');
+    safe('progPct',  e => e.textContent = pct+'% selesai');
+
+    // Ticker EPOCH update
+    ['tk-ep','tk-ep2'].forEach(id => {
+      const el2 = document.getElementById(id);
+      if (el2) {
+        const span = el2.querySelector('span:last-child');
+        if (span) span.textContent = 'h='+h.toFixed(3);
+      }
+    });
+
+    // Hash rate (separate fetch — non-blocking)
+    fetchHashRate();
+
+    console.log('[BITCOIN ID] Block:', blockHeight, 'h:', h.toFixed(5));
+  } catch(e) {
+    // Silent fail — data lama tetap tampil, tidak crash app
+    console.warn('[BITCOIN ID] Blockchain data (non-critical):', e.message);
+  }
+}
+
+async function fetchHashRate() {
+  try {
+    const r = await fetch('https://blockchain.info/q/hashrate');
+    if (!r.ok) return;
+    const ghps = parseFloat(await r.text());
+    if (isNaN(ghps)) return;
+    const ehps = (ghps / 1e9).toFixed(0); // GH/s → EH/s
+
+    // Update quick stats hash rate display
+    const qHash = document.getElementById('qHash');
+    if (qHash) qHash.textContent = ehps+' EH/s';
+  } catch(e) {
+    // Silent fail
+  }
+}
+
+async function fetchPrice() {
+  try {
+    const r = await fetch('https://api.coingecko.com/api/v3/coins/bitcoin?localization=false&tickers=false&community_data=false&developer_data=false');
+    const d = await r.json();
+    const md = d.market_data;
+
+    btcUSD    = md.current_price.usd;
+    btcIDR    = md.current_price.idr;
+    btcChange = md.price_change_percentage_24h || 0;
+    chKurs    = Math.round(btcIDR / btcUSD);
+
+    const isUp = btcChange >= 0;
+    const col  = isUp ? 'var(--up)' : 'var(--dn)';
+
+    // Topbar
+    el('topPrice').textContent = 'Rp'+fmtN(btcIDR);
+    el('topChg').textContent   = pct(btcChange);
+    el('topChg').className     = 'tb-chg '+(isUp?'up':'dn');
+    el('topTime').textContent  = new Date().toLocaleTimeString('id',{hour:'2-digit',minute:'2-digit'});
+
+    // Chart page stats
+    if (el('chUSD')) {
+      el('chUSD').textContent = '$'+btcUSD.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+      el('chIDR').textContent = fmtIDR(btcIDR);
+      el('chChg').textContent = pct(btcChange)+'  ('+(isUp?'+':'')+((btcUSD*btcChange/100).toFixed(2))+')';
+      el('chChg').className   = 'ph-chg '+(isUp?'up':'dn');
+      el('chHigh').textContent = '$'+Math.round(md.high_24h.usd).toLocaleString('en');
+      el('chLow').textContent  = '$'+Math.round(md.low_24h.usd).toLocaleString('en');
+      el('chVol').textContent  = fmtUS(md.total_volume.usd);
+      el('chMcap').textContent = fmtUS(md.market_cap.usd);
+      el('chAth').textContent  = fmtUS(md.ath.usd);
+    }
+
+    // DCA page
+    if (el('dcaPrice') && !el('dcaPrice').value) el('dcaPrice').value = Math.round(btcIDR);
+    if (el('alertCurPrice')) el('alertCurPrice').textContent = fmtIDR(btcIDR);
+    if (el('taxLivePrice'))  el('taxLivePrice').textContent  = fmtIDR(btcIDR);
+    if (el('convPriceTag'))  el('convPriceTag').textContent  = '1 BTC = '+fmtIDR(btcIDR);
+    if (el('qPrice')) updateQuickStats();
+
+    updateTicker();
+    checkAlerts();
+  } catch(e) { console.warn('Price fetch failed:', e); }
+}
+
+function updateQuickStats() {
+  const isUp = btcChange >= 0;
+  if (el('qPrice')) el('qPrice').textContent = fmtIDR(btcIDR);
+  if (el('qChg'))   { el('qChg').textContent = pct(btcChange); el('qChg').className = 'stat-val '+(isUp?'up':'dn'); }
+}
+
+/* ── HALVING CLOCK SVG ──────────────────────────────── */
+function drawClock() {
+  const H = 4.51175, HStart = 4.0, HEnd = 5.0;
+  const progress = (H - HStart) / (HEnd - HStart); // 0-1
+  const R = 110, CX = 150, CY = 150;
+  const circumference = 2 * Math.PI * R;
+
+  // Q1 arc (4.00 → 4.25) = 25% of circle
+  const q1Len  = circumference * 0.25;
+  const currLen = circumference * (progress - 0.25); // from Q1 to now
+
+  const doneArc = el('ck-done');
+  const currArc = el('ck-curr');
+
+  if (doneArc) {
+    doneArc.style.strokeDasharray  = q1Len + ' ' + circumference;
+    doneArc.style.strokeDashoffset = circumference * 0.25;
+  }
+  if (currArc) {
+    currArc.style.strokeDasharray  = Math.max(0,currLen) + ' ' + circumference;
+    currArc.style.strokeDashoffset = circumference * 0.25;
+    currArc.style.stroke = '#FFD700';
+  }
+
+  // Now pointer
+  const angle = progress * 2 * Math.PI - Math.PI/2;
+  const px = CX + R * Math.cos(angle);
+  const py = CY + R * Math.sin(angle);
+  const ptrEl = el('ck-now-ptr');
+  if (ptrEl) {
+    ptrEl.innerHTML = `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="8" fill="#FFD700" filter="url(#glow)"/>
+      <text x="${px.toFixed(1)}" y="${(py+12).toFixed(1)}" font-family="JetBrains Mono,monospace" font-size="7" fill="#FFD700" text-anchor="middle">NOW</text>`;
+  }
+
+  setTimeout(() => {
+    const pf = el('progFill');
+    if (pf) pf.style.width = '51.17%';
+  }, 800);
+}
+
+/* ── CHART PAGE ─────────────────────────────────────── */
+function initChart() {
+  loadChart(1, document.querySelector('.tf-btn'));
+  loadCandle(1, document.querySelector('.tf-btn'));
+  loadFG();
+}
+
+async function loadChart(hours, btnEl) {
+  // Update active button
+  document.querySelectorAll('#page-chart .tf-row:first-of-type .tf-btn').forEach(b => b.classList.remove('active'));
+  if (btnEl) btnEl.classList.add('active');
+
+  const labels = {1:'1 Jam',24:'24 Jam',168:'7 Hari',720:'1 Bulan',2160:'3 Bulan',8760:'1 Tahun',0:'Semua'};
+  if (el('chRangeLbl')) el('chRangeLbl').textContent = (labels[hours]||'') + ' Terakhir';
+
+  const loading = el('chLoading');
+  if (loading) loading.style.display = 'flex';
+
+  try {
+    const days = hours === 0 ? 'max' : hours <= 24 ? 1 : Math.ceil(hours/24);
+    const interval = hours <= 24 ? 'hourly' : 'daily';
+    const r = await fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=${days}&interval=${interval}`);
+    const data = await r.json();
+    if (loading) loading.style.display = 'none';
+    renderLineChart(data.prices, data.total_volumes || []);
+  } catch(e) {
+    if (loading) loading.style.display = 'none';
+    console.warn('Chart load:', e);
+  }
+}
+
+function renderLineChart(prices, volumes) {
+  const canvas = el('priceChart');
+  const vCanvas = el('volChart');
+  if (!canvas) return;
+
+  if (chartInst) { chartInst.destroy(); chartInst = null; }
+  if (volInst)   { volInst.destroy();   volInst   = null; }
+
+  const step = Math.max(1, Math.floor(prices.length / 120));
+  const sp = prices.filter((_,i) => i % step === 0);
+  const sv = volumes.filter((_,i) => i % step === 0);
+
+  const labels = sp.map(p => {
+    const d = new Date(p[0]);
+    return d.toLocaleDateString('id', {month:'short', day:'numeric'}) + ' ' + d.toLocaleTimeString('id',{hour:'2-digit',minute:'2-digit'});
+  });
+  const vals = sp.map(p => p[1]);
+  const first = vals[0], last = vals[vals.length-1];
+  const isPos = last >= first;
+  const color = isPos ? '#22C55E' : '#EF4444';
+
+  const ctx = canvas.getContext('2d');
+  const grad = ctx.createLinearGradient(0,0,0,180);
+  grad.addColorStop(0, isPos ? 'rgba(34,197,94,0.2)' : 'rgba(239,68,68,0.15)');
+  grad.addColorStop(1, 'rgba(0,0,0,0)');
+
+  chartInst = new Chart(ctx, {
+    type: 'line',
+    data: { labels, datasets: [{
+      data: vals, borderColor: color, backgroundColor: grad,
+      borderWidth: 1.5, fill: true, tension: 0.2,
+      pointRadius: 0, pointHoverRadius: 4,
+      pointHoverBackgroundColor: color, pointHoverBorderColor: '#080808', pointHoverBorderWidth: 2,
+    }]},
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      animation: { duration: 400 },
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(13,13,13,0.97)',
+          borderColor: 'rgba(255,215,0,0.2)', borderWidth: 1,
+          titleColor: '#9A9080', bodyColor: '#FFFFFF',
+          titleFont: { family: 'JetBrains Mono', size: 8 },
+          bodyFont: { family: 'JetBrains Mono', size: 11, weight: '500' },
+          padding: 10,
+          callbacks: {
+            title: items => items[0].label,
+            label: ctx => [
+              ' $'+ctx.parsed.y.toLocaleString('en-US',{maximumFractionDigits:0}),
+              ' '+fmtIDR(Math.round(ctx.parsed.y * chKurs))
+            ]
+          }
+        }
+      },
+      scales: {
+        x: { display: true, grid: { color: 'rgba(255,215,0,0.04)' }, ticks: { color: '#A0988A', font: { family:'JetBrains Mono', size:8 }, maxTicksLimit: 6, maxRotation: 0 }, border: { display: false } },
+        y: { display: true, position: 'right', grid: { color: 'rgba(255,215,0,0.04)' }, ticks: { color: '#4A4540', font: { family:'JetBrains Mono', size:7 }, callback: v => '$'+(v>=1000?(v/1000).toFixed(0)+'K':v), color: '#CCCCCC' }, border: { display: false } }
+      }
+    }
+  });
+
+  // Volume chart
+  if (vCanvas && sv.length) {
+    const vctx = vCanvas.getContext('2d');
+    const vcols = sv.map((_,i) => {
+      if (i === 0) return 'rgba(34,197,94,0.4)';
+      return sp[i]&&sp[i-1]&&sp[i][1]>=sp[i-1][1] ? 'rgba(34,197,94,0.4)' : 'rgba(239,68,68,0.4)';
+    });
+    volInst = new Chart(vctx, {
+      type: 'bar',
+      data: { labels: sv.map(v=>new Date(v[0]).toLocaleDateString('id')), datasets: [{ data: sv.map(v=>v[1]), backgroundColor: vcols, borderWidth: 0 }] },
+      options: { responsive:true, maintainAspectRatio:false, animation:{duration:0}, plugins:{legend:{display:false},tooltip:{enabled:false}}, scales:{x:{display:false},y:{display:false}} }
+    });
+  }
+}
+
+async function loadCandle(days, btnEl) {
+  document.querySelectorAll('.tf-btn').forEach(b => { if(b.closest('#page-chart')) b.classList.remove('active'); });
+  if (btnEl) btnEl.classList.add('active');
+
+  const loading = el('candleLoading');
+  if (loading) loading.style.display = 'flex';
+
+  try {
+    const r = await fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/ohlc?vs_currency=usd&days=${days}`);
+    const data = await r.json();
+    if (loading) loading.style.display = 'none';
+    renderCandleChart(data);
+  } catch(e) {
+    if (loading) loading.style.display = 'none';
+  }
+}
+
+function renderCandleChart(ohlc) {
+  const canvas = el('candleChart');
+  if (!canvas) return;
+  if (candleInst) { candleInst.destroy(); candleInst = null; }
+  const ctx = canvas.getContext('2d');
+
+  const step = Math.max(1, Math.floor(ohlc.length/60));
+  const data = ohlc.filter((_,i) => i%step===0);
+
+  candleInst = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: data.map(d => new Date(d[0]).toLocaleDateString('id',{month:'short',day:'numeric'})),
+      datasets: [
+        { label:'Wick', data: data.map(d => [d[3],d[2]]), backgroundColor: data.map(d=>d[4]>=d[1]?'rgba(34,197,94,0.5)':'rgba(239,68,68,0.5)'), borderWidth:0, barPercentage:0.3 },
+        { label:'Body', data: data.map(d => [d[1],d[4]]), backgroundColor: data.map(d=>d[4]>=d[1]?'rgba(34,197,94,0.8)':'rgba(239,68,68,0.8)'), borderWidth:0, barPercentage:0.7 }
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false, animation:{duration:300},
+      plugins:{ legend:{display:false}, tooltip:{
+        callbacks:{ label: ctx => {
+          const d = data[ctx.dataIndex];
+          return [`O:$${d[1].toFixed(0)} H:$${d[2].toFixed(0)}`,`L:$${d[3].toFixed(0)} C:$${d[4].toFixed(0)}`];
+        }}
+      }},
+      scales:{
+        x:{grid:{color:'rgba(255,215,0,0.04)'},ticks:{color:'#4A4540',font:{family:'JetBrains Mono',size:7},maxTicksLimit:8,maxRotation:0},border:{display:false}},
+        y:{position:'right',grid:{color:'rgba(255,215,0,0.04)'},ticks:{color:'#4A4540',font:{family:'JetBrains Mono',size:7},callback:v=>'$'+(v/1000).toFixed(0)+'K'},border:{display:false}}
+      }
+    }
+  });
+}
+
+async function loadFG() {
+  try {
+    const r = await fetch('https://api.alternative.me/fng/?limit=1&format=json');
+    const d = await r.json();
+    const v = parseInt(d.data[0].value);
+    const lbl = d.data[0].value_classification;
+    let col = v<=25?'var(--dn)':v<=45?'var(--orange)':v<=55?'var(--t2)':v<=75?'var(--up)':'var(--gold)';
+    if(el('fgNum')) { el('fgNum').textContent=v; el('fgNum').style.color=col; }
+    if(el('fgLbl')) { el('fgLbl').textContent=lbl; el('fgLbl').style.color=col; }
+    if(el('fgFill')){ el('fgFill').style.width=v+'%'; el('fgFill').style.background=col; }
+    if(el('fgNote')) el('fgNote').textContent=`Index ${v}/100 — ${v<=30?'Waktu terbaik akumulasi Bitcoin. Pasar panik berlebihan.':v>=70?'Hati-hati, pasar terlalu euforia. Pertimbangkan profit taking.':'Pasar dalam kondisi seimbang. DCA konsisten adalah strategi terbaik.'}`;
+  } catch(e) { console.warn('FG:', e); }
+}
+
+/* ── DCA CALCULATOR ─────────────────────────────────── */
+function calcDCA() {
+  const price   = parseFloat(el('dcaPrice').value)||0;
+  const monthly = parseFloat(el('dcaMonthly').value)||0;
+  const months  = parseInt(el('dcaMonthSlider').value)||12;
+  const target  = parseFloat(el('dcaTarget').value)||0;
+  if (!price || !monthly) return;
+
+  const totalModal = monthly * months;
+  const totalBTC   = totalModal / price;
+  const totalSat   = Math.round(totalBTC * 1e8);
+  const valueAtTarget = target ? totalBTC * target : 0;
+  const roi = target ? ((valueAtTarget - totalModal) / totalModal * 100) : 0;
+
+  const res = el('dcaResult');
+  res.style.display = 'block';
+  el('dcaTotalModal').textContent = fmtIDR(totalModal);
+  el('dcaTotalBTC').textContent   = totalBTC.toFixed(8)+' BTC';
+  el('dcaTotalSat').textContent   = totalSat.toLocaleString('id')+' sat';
+  el('dcaValueAtTarget').textContent = target ? fmtIDR(valueAtTarget) : '—';
+  el('dcaSummary').innerHTML = `DCA <strong>${fmtIDR(monthly)}/bulan</strong> selama <strong>${months} bulan</strong> = total modal <strong>${fmtIDR(totalModal)}</strong>. Kamu akan mendapatkan <strong>${totalBTC.toFixed(6)} BTC</strong>${target ? `. Jika BTC mencapai ${fmtIDR(target)}, nilainya menjadi <strong>${fmtIDR(valueAtTarget)}</strong> (ROI: ${roi.toFixed(0)}%)` : ''}.`;
+  unlockBadge('dca');
+}
+
+/* ── DCA JOURNAL ────────────────────────────────────── */
+function loadJournal() { journalEntries = lsGet('journal') || []; renderJournal(); }
+function saveJournal() { lsSet('journal', journalEntries); }
+
+function addJournal() {
+  const date   = el('jDate').value;
+  const amount = parseFloat(el('jAmount').value)||0;
+  const price  = parseFloat(el('jPrice').value)||0;
+  if (!date || !amount || !price) { showToast('⚠️ Lengkapi semua field'); return; }
+  const btc = amount / price;
+  journalEntries.unshift({ date, amount, price, btc, id: Date.now() });
+  saveJournal();
+  el('jDate').value = el('jAmount').value = el('jPrice').value = '';
+  renderJournal();
+  unlockBadge('journal');
+  showToast('✅ Pembelian tercatat');
+}
+
+function deleteJournal(id) {
+  journalEntries = journalEntries.filter(e => e.id !== id);
+  saveJournal(); renderJournal();
+}
+
+function renderJournal() {
+  const list = el('journalList');
+  if (!list) return;
+  if (!journalEntries.length) { list.innerHTML = '<div style="text-align:center;font-family:var(--font-mono);font-size:9px;color:var(--t4);padding:16px">Belum ada catatan DCA</div>'; return; }
+
+  let totalModal=0, totalBTC=0;
+  list.innerHTML = journalEntries.map(e => {
+    totalModal += e.amount; totalBTC += e.btc;
+    const curVal = e.btc * btcIDR;
+    const pnl = curVal - e.amount;
+    const pnlPct = (pnl/e.amount*100);
+    return `<div class="journal-item">
+      <div class="ji-del" onclick="deleteJournal(${e.id})">🗑</div>
+      <div class="ji-date">${e.date}</div>
+      <div class="ji-row">
+        <div class="ji-idr">${fmtIDR(e.amount)}</div>
+        <div class="ji-btc">${e.btc.toFixed(6)} BTC</div>
+        <div class="ji-pnl ${pnl>=0?'up':'dn'}">${pnl>=0?'+':''}${fmtIDR(pnl)} (${pnlPct.toFixed(1)}%)</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const summary = el('journalSummary');
+  if (summary && journalEntries.length) {
+    summary.style.display = 'block';
+    const totalCur = totalBTC * btcIDR;
+    const totalPnl = totalCur - totalModal;
+    el('jSumTotal').innerHTML = `Total modal: <strong>${fmtIDR(totalModal)}</strong>`;
+    el('jSumBTC').innerHTML   = `Total BTC: <strong>${totalBTC.toFixed(6)} BTC</strong> (${(totalBTC*1e8).toFixed(0)} sat)`;
+    el('jSumPnL').innerHTML   = `P&amp;L: <strong style="color:${totalPnl>=0?'var(--up)':'var(--dn)'}">${totalPnl>=0?'+':''}${fmtIDR(totalPnl)} (${(totalPnl/totalModal*100).toFixed(1)}%)</strong>`;
+  }
+}
+
+/* ── SATOSHI CONVERTER ──────────────────────────────── */
+function setConvMode(mode) {
+  convMode = mode;
+  ['idr','sat','btc'].forEach(m => el('cMode-'+m).classList.toggle('active', m===mode));
+  const lbls = { idr:'Jumlah (Rp)', sat:'Jumlah (Satoshi)', btc:'Jumlah (BTC)' };
+  el('convInputLbl').textContent = lbls[mode];
+  el('convInput').value = '';
+  el('convResult').textContent = '0';
+  calcConv();
+}
+
+function calcConv() {
+  const val = parseFloat(el('convInput').value) || 0;
+  let result = 0, unit = '';
+  if (convMode === 'idr') {
+    const btc = val / btcIDR;
+    result = Math.round(btc * 1e8);
+    unit = 'SATOSHI (' + btc.toFixed(8) + ' BTC)';
+  } else if (convMode === 'sat') {
+    const idr = (val / 1e8) * btcIDR;
+    result = Math.round(idr);
+    unit = 'RUPIAH (' + (val/1e8).toFixed(8) + ' BTC)';
+  } else {
+    result = Math.round(val * btcIDR);
+    unit = 'RUPIAH (' + Math.round(val*1e8).toLocaleString('id') + ' sat)';
+  }
+  el('convResult').textContent = result.toLocaleString('id');
+  el('convUnit').textContent   = unit;
+  el('convPriceTag').textContent = '1 BTC = ' + fmtIDR(btcIDR);
+}
+
+function buildConvTable() {
+  const table = el('convTable');
+  if (!table) return;
+  const rows = [1,10,100,1000,10000,100000,500000,1000000,5000000,10000000];
+  table.innerHTML = rows.map(rp => {
+    const sat = Math.round((rp/btcIDR)*1e8);
+    const btcVal = (rp/btcIDR).toFixed(8);
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:10px">
+      <span style="color:var(--t3)">${'Rp'+rp.toLocaleString('id')}</span>
+      <span style="color:var(--gold)">${sat.toLocaleString('id')} sat</span>
+    </div>`;
+  }).join('');
+}
+
+/* ── PRICE ALERT ────────────────────────────────────── */
+function loadAlerts()  { priceAlerts = lsGet('alerts') || []; }
+function saveAlerts()  { lsSet('alerts', priceAlerts); }
+function setAlertDir(d){ alertDir = d; el('alert-above').classList.toggle('active',d==='above'); el('alert-below').classList.toggle('active',d==='below'); }
+
+function addAlert() {
+  const price = parseFloat(el('alertPrice').value)||0;
+  if (!price) { showToast('⚠️ Masukkan target harga'); return; }
+  priceAlerts.push({ price, dir: alertDir, id: Date.now() });
+  saveAlerts(); el('alertPrice').value = '';
+  renderAlerts(); unlockBadge('alert');
+  showToast('✅ Alert ditambahkan');
+}
+
+function deleteAlert(id) { priceAlerts = priceAlerts.filter(a=>a.id!==id); saveAlerts(); renderAlerts(); }
+
+function renderAlerts() {
+  const list = el('alertList');
+  if (!list) return;
+  if (!priceAlerts.length) { list.innerHTML = '<div style="text-align:center;font-family:var(--font-mono);font-size:9px;color:var(--t4);padding:12px">Belum ada alert</div>'; return; }
+  list.innerHTML = priceAlerts.map(a => `
+    <div class="alert-item">
+      <div class="alert-price" style="color:${a.dir==='above'?'var(--up)':'var(--dn)'}">${fmtIDR(a.price)}</div>
+      <div class="alert-type" style="color:${a.dir==='above'?'var(--up)':'var(--dn)'}">${a.dir==='above'?'▲ ATAS':'▼ BAWAH'}</div>
+      <div class="alert-del" onclick="deleteAlert(${a.id})">🗑</div>
+    </div>`).join('');
+}
+
+function checkAlerts() {
+  priceAlerts.forEach(a => {
+    if ((a.dir==='above' && btcIDR>=a.price) || (a.dir==='below' && btcIDR<=a.price)) {
+      showToast(`🔔 Alert! BTC ${a.dir==='above'?'naik di atas':'turun di bawah'} ${fmtIDR(a.price)}`, 4000);
+      // Vibrate on mobile
+      if (navigator.vibrate) navigator.vibrate([200,100,200]);
+    }
+  });
+}
+
+/* ── PAJAK ──────────────────────────────────────────── */
+function setTaxEx(ex) {
+  taxEx = ex;
+  el('tax-dn').classList.toggle('active', ex==='dn');
+  el('tax-ln').classList.toggle('active', ex==='ln');
+  calcTax();
+}
+
+function calcTax() {
+  const amount = parseFloat(el('taxAmount').value)||0;
+  if (!amount) return;
+  const rate = taxEx==='dn' ? 0.0021 : 0.01;
+  const pajak = amount * rate;
+  const bersih = amount - pajak;
+  const res = el('taxResult');
+  res.style.display = 'block';
+  el('txTrx').textContent  = fmtIDR(amount);
+  el('txRate').textContent = (rate*100).toFixed(2)+'% PPh 22 Final';
+  el('txPajak').textContent = fmtIDR(pajak);
+  el('txBersih').textContent = fmtIDR(bersih);
+}
+
+/* ── ACHIEVEMENTS ───────────────────────────────────── */
+const BADGES = [
+  { id:'first',    icon:'🥇', name:'Pengguna Pertama',  desc:'Buka app' },
+  { id:'dca',      icon:'💰', name:'DCA Master',        desc:'Hitung DCA' },
+  { id:'journal',  icon:'📓', name:'Pencatat Setia',    desc:'Catat DCA' },
+  { id:'alert',    icon:'🔔', name:'Alert Setter',      desc:'Buat alert' },
+  { id:'wp',       icon:'📄', name:'Pembaca Satoshi',   desc:'Baca Whitepaper' },
+  { id:'scholar',  icon:'🎓', name:'Bitcoin Scholar',   desc:'Deep Knowledge' },
+  { id:'custody',  icon:'🔐', name:'Self Custodian',    desc:'Cold Wallet' },
+  { id:'supporter',icon:'☕', name:'Supporter Dev',     desc:'Dukung Dev' },
+  { id:'hodler',   icon:'💎', name:'Diamond Hands',     desc:'Semua badge!' },
+];
+
+function loadBadges()  { badges = lsGet('badges') || {}; }
+function saveBadges()  { lsSet('badges', badges); }
+function unlockBadge(id) {
+  if (badges[id]) return;
+  badges[id] = Date.now();
+  saveBadges();
+  showToast('🏆 Badge baru: '+BADGES.find(b=>b.id===id)?.name);
+  // Check all unlocked
+  const mainBadges = BADGES.filter(b=>b.id!=='hodler');
+  if (mainBadges.every(b=>badges[b.id])) unlockBadge('hodler');
+}
+
+function renderBadges() {
+  const grid = el('badgeGrid');
+  if (!grid) return;
+  grid.innerHTML = BADGES.map(b => `
+    <div class="badge-card ${badges[b.id]?'unlocked':''}">
+      <div class="badge-icon">${b.icon}</div>
+      <div class="badge-name">${b.name}</div>
+    </div>`).join('');
+}
+
+/* ── NEWS ───────────────────────────────────────────── */
+const STATIC_NEWS = [
+  { title:'Bitcoin Tembus $77.000 — Analyst: Target $150K Masih Realistis', source:'CoinDesk', time:'2 jam lalu', url:'#' },
+  { title:'Federal Reserve Tahan Suku Bunga 4.25-4.50% — Bullish untuk Aset Kripto', source:'Reuters', time:'5 jam lalu', url:'#' },
+  { title:'El Salvador Tambah 15 BTC ke Treasury Nasional', source:'Bitcoin Magazine', time:'8 jam lalu', url:'#' },
+  { title:'BlackRock Bitcoin ETF Catat Inflow $500 Juta dalam 3 Hari', source:'Bloomberg', time:'12 jam lalu', url:'#' },
+  { title:'Michael Saylor: Strategy Tambah 1.000 BTC, Total Capai 550.000 BTC', source:'Strategy', time:'1 hari lalu', url:'#' },
+  { title:'Halving Ke-5 Bitcoin Diperkirakan April 2028 — Block 1.050.000', source:'Bitbo', time:'2 hari lalu', url:'#' },
+  { title:'Indonesia Resmi Atur Kripto di OJK — Izin Exchange Berlaku 2026', source:'Kontan', time:'3 hari lalu', url:'#' },
+  { title:'Hash Rate Bitcoin ATH 933 EH/s — Jaringan Paling Aman dalam Sejarah', source:'Glassnode', time:'4 hari lalu', url:'#' },
+];
+
+async function loadNews() {
+  const list = el('newsList');
+  if (!list) return;
+
+  try {
+    const r = await fetch('https://cryptopanic.com/api/v1/posts/?auth_token=demo&currencies=BTC&kind=news&public=true');
+    const d = await r.json();
+    const items = d.results || [];
+    if (items.length) {
+      list.innerHTML = items.slice(0,10).map(n => `
+        <div class="news-item" onclick="window.open('${n.url}','_blank')">
+          <div class="news-src">${n.source?.title||'Bitcoin News'}</div>
+          <div class="news-title">${n.title}</div>
+          <div class="news-time">${new Date(n.created_at).toLocaleString('id')}</div>
+        </div>`).join('');
+      return;
+    }
+  } catch(e) {}
+
+  // Fallback static news
+  list.innerHTML = STATIC_NEWS.map(n => `
+    <div class="news-item">
+      <div class="news-src">${n.source}</div>
+      <div class="news-title">${n.title}</div>
+      <div class="news-time">${n.time}</div>
+    </div>`).join('');
+}
+
+/* ── WHALE HOLDERS ──────────────────────────────────── */
+function renderWhales() {
+  const list = el('whaleList');
+  if (!list) return;
+  const whales = [
+    { rank:1, name:'Satoshi Nakamoto (Dormant)',      btc:'1,100,000', pct:'5.238%' },
+    { rank:2, name:'Strategy (MicroStrategy)',        btc:'553,555',   pct:'2.636%' },
+    { rank:3, name:'Binance Exchange',                btc:'~550,000',  pct:'~2.62%' },
+    { rank:4, name:'Coinbase Exchange',               btc:'~480,000',  pct:'~2.29%' },
+    { rank:5, name:'BlackRock Bitcoin ETF',           btc:'~300,000',  pct:'~1.43%' },
+    { rank:6, name:'Fidelity Bitcoin ETF',            btc:'~180,000',  pct:'~0.86%' },
+    { rank:7, name:'Kraken Exchange',                 btc:'~150,000',  pct:'~0.71%' },
+    { rank:8, name:'El Salvador (Pemerintah)',        btc:'5,800',     pct:'0.028%' },
+    { rank:9, name:'Government of Bhutan',            btc:'~12,000',   pct:'~0.06%' },
+    { rank:10,name:'Tim Draper (Investor)',           btc:'~30,000',   pct:'~0.14%' },
+  ];
+  list.innerHTML = whales.map(w => `
+    <div class="whale-item">
+      <div class="whale-rank">#${w.rank}</div>
+      <div class="whale-name">${w.name}</div>
+      <div class="whale-btc">${w.btc} BTC</div>
+      <div class="whale-pct">${w.pct}</div>
+    </div>`).join('');
+}
+
+/* ── WHITEPAPER ─────────────────────────────────────── */
+function renderWhitepaper() {
+  const list = el('wpList');
+  if (!list) return;
+  const chapters = [
+    { num:'Abstrak', title:'Bitcoin: Sistem Uang Elektronik Peer-to-Peer', desc:'Dokumen asli Satoshi Nakamoto, Oktober 2008.', body:'Sebuah versi uang elektronik yang murni peer-to-peer memungkinkan pembayaran online dikirim langsung dari satu pihak ke pihak lain tanpa melalui lembaga keuangan.' },
+    { num:'Bab 1', title:'Pendahuluan', desc:'Masalah perdagangan internet dan solusi Bitcoin.', body:'Perdagangan di Internet telah bergantung hampir sepenuhnya pada lembaga keuangan sebagai pihak ketiga yang dipercaya. Bitcoin mengusulkan solusi menggunakan bukti kriptografi alih-alih kepercayaan.' },
+    { num:'Bab 2', title:'Transaksi', desc:'Cara kerja transaksi Bitcoin secara teknis.', body:'Kami mendefinisikan koin elektronik sebagai rangkaian tanda tangan digital. Setiap pemilik mentransfer koin ke pemilik berikutnya dengan menandatangani secara digital hash dari transaksi sebelumnya.' },
+    { num:'Bab 3', title:'Proof-of-Work', desc:'Mekanisme konsensus Bitcoin.', body:'Untuk mengimplementasikan server timestamp terdistribusi, kami mengusulkan proof-of-work yang mirip Hashcash dari Adam Back. Kesulitan proof-of-work ditentukan oleh moving average.' },
+    { num:'Bab 4', title:'Jaringan', desc:'Cara kerja peer-to-peer Bitcoin.', body:'Langkah menjalankan jaringan: Broadcast transaksi baru ke semua node → Setiap node kumpulkan transaksi ke dalam block → Mining proof-of-work → Broadcast block → Semua node terima block yang valid.' },
+    { num:'Bab 5', title:'Insentif Mining', desc:'Mengapa miner mau mengamankan jaringan.', body:'Berdasarkan konvensi, transaksi pertama dalam block adalah transaksi spesial yang membuat koin baru milik pembuat block. Ini memberi insentif kepada node untuk mendukung jaringan.' },
+    { num:'Bab 6', title:'Supply 21 Juta', desc:'Mekanisme deflasi Bitcoin.', body:'Reward blok dimulai dari 50 BTC dan berkurang setengahnya setiap 210.000 blok (~4 tahun). Total supply tidak pernah melebihi 21 juta BTC — ini adalah deflasi yang terprogram secara matematis.' },
+    { num:'Bab 7', title:'Privasi', desc:'Privasi dalam Bitcoin.', body:'Bitcoin memungkinkan privasi dengan memutus aliran informasi di tempat lain: dengan menjaga kunci publik tetap anonim. Publik dapat melihat seseorang mengirim sejumlah ke seseorang, tanpa mengetahui identitas keduanya.' },
+    { num:'Kesimpulan', title:'Sistem Tanpa Kepercayaan Pihak Ketiga', desc:'Visi akhir Satoshi Nakamoto.', body:'Kami mengusulkan sistem untuk transaksi elektronik tanpa bergantung pada kepercayaan. Bitcoin dimulai dengan kerangka koin yang dibuat dari tanda tangan digital, yang memberikan kontrol kepemilikan yang kuat.' },
+  ];
+  list.innerHTML = chapters.map((c,i) => `
+    <div class="wp-chapter" onclick="toggleWP(${i})">
+      <div class="wp-num">${c.num}</div>
+      <div class="wp-title">${c.title}</div>
+      <div class="wp-desc">${c.desc}</div>
+      <div class="wp-content" id="wp-${i}">${c.body}</div>
+    </div>`).join('');
+}
+
+function toggleWP(i) {
+  const el2 = el('wp-'+i);
+  if (el2) el2.classList.toggle('open');
+}
+
+/* ── DEEP KNOWLEDGE ─────────────────────────────────── */
+function renderDeepKnow() {
+  const list = el('dkList');
+  if (!list) return;
+  const topics = [
+    { icon:'📦', title:'UTXO — Unspent Transaction Output', preview:'Bitcoin tidak bekerja seperti rekening bank.', body:'<strong>UTXO</strong> adalah koin individual yang belum dibelanjakan, seperti uang kertas fisik. Kamu punya 3 UTXO: 0.5 BTC, 0.3 BTC, 0.2 BTC = total 1.0 BTC dalam 3 koin terpisah. Saat kirim Bitcoin, wallet pilih UTXO mana yang digunakan. Sisa kembalian menjadi UTXO baru. Ini mengapa privasi Bitcoin kompleks — semua bisa dilacak di blockchain publik.' },
+    { icon:'🏊', title:'Mempool — Ruang Tunggu Transaksi', preview:'Bayangkan antrean di kasir bank.', body:'<strong>Mempool</strong> adalah ruang tunggu transaksi sebelum dikonfirmasi miner. Kamu kirim Bitcoin → masuk Mempool → miner pilih fee tertinggi → masuk block baru (dikonfirmasi). Mempool penuh = fee naik. Mempool kosong = fee murah. Pantau real-time di <strong>mempool.space</strong>.' },
+    { icon:'⚡', title:'Lightning Network — Layer 2 Bitcoin', preview:'Transaksi instan dengan fee hampir nol.', body:'Lightning adalah <strong>Layer 2</strong> di atas Bitcoin. Bitcoin onchain: 7 tx/detik, 10 menit konfirmasi, fee $1-50. Lightning: jutaan tx/detik, <1 detik konfirmasi, fee <1 satoshi. Cara kerja: buka payment channel → transaksi off-chain → tutup channel = dicatat di blockchain. Ideal untuk pembayaran sehari-hari.' },
+    { icon:'⚙️', title:'Hash Rate & Difficulty Adjustment', preview:'Genius mekanisme otomatis Satoshi.', body:'<strong>Hash Rate</strong> adalah total kekuatan komputasi seluruh miner (satuan: EH/s). Saat ini ~933 EH/s, ATH. Setiap 2016 block (~2 minggu), <strong>Difficulty Adjustment</strong> otomatis menyesuaikan tingkat kesulitan mining agar selalu 1 block per 10 menit. Ini adalah self-regulating system tanpa manusia — hanya matematika.' },
+    { icon:'🌿', title:'SegWit & Taproot — Upgrade Bitcoin', preview:'Dua upgrade terpenting Bitcoin.', body:'<strong>SegWit (2017)</strong>: Pisahkan data signature dari transaksi → lebih ringan, fee lebih murah, memungkinkan Lightning Network. <strong>Taproot (2021)</strong>: Upgrade terbesar sejak SegWit. Tingkatkan privasi, efisiensi smart contract, buka ekosistem baru di atas Bitcoin (Ordinals, Runes, dll).' },
+    { icon:'💎', title:'Realized Cap & MVRV', preview:'Cara cerdas mengukur valuasi Bitcoin.', body:'<strong>Realized Cap</strong>: Hitung setiap Bitcoin berdasarkan harga terakhir kali berpindah tangan — lebih akurat dari market cap biasa. <strong>MVRV</strong> = Market Cap ÷ Realized Cap. MVRV <1 = bottom (beli). MVRV 1-2 = fair value (DCA). MVRV >3.5 = top (jual sebagian). Indikator paling reliable dalam sejarah Bitcoin.' },
+  ];
+  list.innerHTML = topics.map((t,i) => `
+    <div class="dk-section" onclick="toggleDK(${i})">
+      <div class="dk-title">${t.icon} ${t.title}</div>
+      <div class="dk-preview">${t.preview}</div>
+      <div class="dk-body" id="dk-${i}">${t.body}</div>
+    </div>`).join('');
+}
+
+function toggleDK(i) {
+  const el2 = el('dk-'+i);
+  if (el2) el2.classList.toggle('open');
+}
+
+/* ── RAINBOW CHART ──────────────────────────────────── */
+const RB_ZONES = [
+  { name:'Maximum Bubble',     desc:'Jual semua!',              color:'#7f0000', m:3.30 },
+  { name:'Sangat Mahal',       desc:'Jual sebagian besar',       color:'#b71c1c', m:2.50 },
+  { name:'Mahal',              desc:'Mulai exit strategy',        color:'#e65100', m:1.90 },
+  { name:'Mulai Mahal',        desc:'Kurangi pembelian',          color:'#f9a825', m:1.45 },
+  { name:'Fair Value',         desc:'DCA normal optimal',         color:'#2e7d32', m:1.10 },
+  { name:'Cukup Murah',        desc:'DCA sangat dianjurkan',      color:'#388e3c', m:0.85 },
+  { name:'Undervalued',        desc:'Beli agresif',               color:'#1565c0', m:0.65 },
+  { name:'Sangat Murah',       desc:'Akumulasi terbaik',          color:'#0d47a1', m:0.50 },
+  { name:'Deeply Undervalued', desc:'Beli semua yang kamu bisa',  color:'#1a237e', m:0.35 },
+];
+
+function rbFairPrice(date) {
+  const genesis = new Date('2009-01-03');
+  const days = Math.max(1, (date - genesis) / 86400000);
+  return Math.exp(5.84 * Math.log(days) - 39.5);
+}
+
+function rbGetZone(price) {
+  const fair = rbFairPrice(new Date());
+  const ratio = price / fair;
+  for (let i = 0; i < RB_ZONES.length; i++) {
+    if (ratio >= RB_ZONES[i].m * 0.75) return { ...RB_ZONES[i], ratio, fair };
+  }
+  return { ...RB_ZONES[RB_ZONES.length-1], ratio, fair };
+}
+
+async function initRainbow() {
+  try {
+    const zone = rbGetZone(btcUSD);
+    const heroEl = el('rbZoneName');
+    if (heroEl) { heroEl.textContent = '🎯 '+zone.name; heroEl.style.color = zone.color; }
+    if (el('rbZoneDesc')) el('rbZoneDesc').textContent = zone.desc + ' · Ratio: '+zone.ratio.toFixed(2);
+
+    // Zones list
+    const zonesList = el('rbZones');
+    if (zonesList) {
+      const now = new Date();
+      const fair = rbFairPrice(now);
+      zonesList.innerHTML = RB_ZONES.map(z => {
+        const zPrice = Math.round(fair * z.m * chKurs);
+        const isActive = z.name === zone.name;
+        return `<div class="rb-zone ${isActive?'active':''}" style="${isActive?'border-color:'+z.color+';background:'+z.color+'15':''}">
+          <div class="rb-dot" style="background:${z.color}"></div>
+          <div class="rb-name" style="color:${isActive?z.color:'var(--t3)'}">${z.name} ${isActive?'← KITA':''}</div>
+          <div class="rb-price">~Rp${fmtN(zPrice)}</div>
+        </div>`;
+      }).join('');
+    }
+
+    // Load chart
+    const loading = el('rbLoading');
+    if (loading) loading.style.display = 'flex';
+    const r = await fetch('https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=1825&interval=daily');
+    const d = await r.json();
+    if (loading) loading.style.display = 'none';
+    renderRainbow(d.prices);
+  } catch(e) {
+    const loading = el('rbLoading');
+    if (loading) loading.style.display = 'none';
+  }
+}
+
+function renderRainbow(prices) {
+  const canvas = el('rainbowChart');
+  if (!canvas) return;
+  if (rainbowInst) { rainbowInst.destroy(); rainbowInst = null; }
+  const ctx = canvas.getContext('2d');
+
+  const step = Math.max(1, Math.floor(prices.length/100));
+  const sp = prices.filter((_,i) => i%step===0);
+  const labels = sp.map(p => new Date(p[0]).toLocaleDateString('id',{month:'short',year:'2-digit'}));
+
+  const bandDatasets = RB_ZONES.map((z,i) => ({
+    type:'line', label:z.name,
+    data: sp.map(p => rbFairPrice(new Date(p[0])) * z.m),
+    borderColor: z.color+'99', backgroundColor: z.color+'18',
+    borderWidth: 0.5, fill: i < RB_ZONES.length-1 ? '+1' : false,
+    pointRadius: 0, tension: 0.3, order: 10
+  }));
+
+  rainbowInst = new Chart(ctx, {
+    data: {
+      labels,
+      datasets: [...bandDatasets, {
+        type:'line', label:'BTC', data: sp.map(p=>p[1]),
+        borderColor:'white', borderWidth:1.5,
+        fill:false, pointRadius:0, tension:0.2, order:1
+      }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false, animation:{duration:400},
+      plugins:{ legend:{display:false}, tooltip:{
+        callbacks:{ label: c => { if(c.datasetIndex===RB_ZONES.length) return ' BTC: $'+Math.round(c.parsed.y).toLocaleString('en'); return null; }, filter: i => i.datasetIndex===RB_ZONES.length }
+      }},
+      scales:{
+        x:{grid:{color:'rgba(255,215,0,0.04)'},ticks:{color:'#4A4540',font:{family:'JetBrains Mono',size:7},maxTicksLimit:7,maxRotation:0},border:{display:false}},
+        y:{type:'logarithmic',position:'right',grid:{color:'rgba(255,215,0,0.04)'},ticks:{color:'#4A4540',font:{family:'JetBrains Mono',size:7},callback:v=>v>=1000?'$'+(v/1000).toFixed(0)+'K':'$'+v},border:{display:false}}
+      }
+    }
+  });
+}
+
+/* ── MVRV CHART ─────────────────────────────────────── */
+function initMVRV() {
+  const realizedPrice = 42000;
+  const mvrv = (btcUSD * 19800000) / (realizedPrice * 19800000);
+  const mvrvVal = (btcUSD / realizedPrice).toFixed(2);
+
+  if (el('mvrvVal')) { el('mvrvVal').textContent = mvrvVal; el('mvrvVal').style.color = mvrv<1?'var(--blue)':mvrv<2?'var(--up)':mvrv<3.5?'var(--gold)':'var(--dn)'; }
+  const zones = [{max:1,lbl:'🔵 BOTTOM ZONE',col:'#5B8FC4'},{max:2,lbl:'🟢 FAIR VALUE ← KITA',col:'var(--up)'},{max:3.5,lbl:'🟡 BULL ZONE',col:'var(--gold)'},{max:99,lbl:'🔴 DANGER ZONE',col:'var(--dn)'}];
+  const zone = zones.find(z => mvrv < z.max) || zones[3];
+  if (el('mvrvZone')) { el('mvrvZone').textContent = zone.lbl; el('mvrvZone').style.color = zone.col; }
+  const needlePct = Math.min(Math.max((parseFloat(mvrvVal)/5)*100,2),98);
+  if (el('mvrvNeedle')) el('mvrvNeedle').style.left = needlePct+'%';
+}
+
+async function loadMVRV(days, btnEl) {
+  document.querySelectorAll('#page-mvrv .tf-btn').forEach(b=>b.classList.remove('active'));
+  if (btnEl) btnEl.classList.add('active');
+
+  const loading = el('mvrvLoading');
+  if (loading) loading.style.display = 'flex';
+
+  try {
+    const d2 = days===0?'max':days;
+    const r = await fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=${d2}&interval=daily`);
+    const data = await r.json();
+    if (loading) loading.style.display = 'none';
+    renderMVRV(data.prices);
+  } catch(e) {
+    if (loading) loading.style.display = 'none';
+  }
+}
+
+function renderMVRV(prices) {
+  const canvas = el('mvrvChart');
+  if (!canvas) return;
+  if (mvrvInst) { mvrvInst.destroy(); mvrvInst = null; }
+  const ctx = canvas.getContext('2d');
+
+  const step = Math.max(1,Math.floor(prices.length/100));
+  const sp = prices.filter((_,i)=>i%step===0);
+  const window200 = 200;
+  const mvrvVals = sp.map((p,i,arr) => {
+    const start = Math.max(0, i*step-window200);
+    const slice = prices.slice(start, i*step+1);
+    const rp = slice.reduce((s,x)=>s+x[1],0)/slice.length;
+    return Math.max(0, p[1]/rp);
+  });
+  const labels = sp.map(p=>new Date(p[0]).toLocaleDateString('id',{month:'short',year:'2-digit'}));
+  const maxMVRV = Math.max(...mvrvVals,5);
+  const btcNorm = sp.map(p=>(p[1]/Math.max(...sp.map(x=>x[1])))*maxMVRV*0.85);
+  const barColors = mvrvVals.map(v=>v<1?'rgba(26,58,108,0.8)':v<2?'rgba(34,197,94,0.75)':v<3.5?'rgba(255,215,0,0.7)':'rgba(239,68,68,0.8)');
+
+  mvrvInst = new Chart(ctx, {
+    data: { labels, datasets: [
+      { type:'bar', data:mvrvVals, backgroundColor:barColors, borderWidth:0, barPercentage:0.95, yAxisID:'y', order:2 },
+      { type:'line', data:btcNorm, borderColor:'rgba(255,215,0,0.85)', borderWidth:1.5, fill:false, tension:0.3, pointRadius:0, yAxisID:'y', order:1 },
+      { type:'line', data:new Array(labels.length).fill(3.5), borderColor:'rgba(239,68,68,0.4)', borderWidth:1, borderDash:[4,4], fill:false, pointRadius:0, yAxisID:'y', order:3 },
+      { type:'line', data:new Array(labels.length).fill(1), borderColor:'rgba(34,197,94,0.5)', borderWidth:1, borderDash:[4,4], fill:false, pointRadius:0, yAxisID:'y', order:3 },
+    ]},
+    options: {
+      responsive:true, maintainAspectRatio:false, animation:{duration:400},
+      plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label:c=>{if(c.datasetIndex===0)return' MVRV: '+c.parsed.y.toFixed(2);if(c.datasetIndex===1)return' BTC: $'+Math.round(sp[c.dataIndex]?.[1]).toLocaleString('en');return null;}, filter:i=>i.datasetIndex<=1 } }},
+      scales:{
+        x:{grid:{color:'rgba(255,215,0,0.04)'},ticks:{color:'#4A4540',font:{family:'JetBrains Mono',size:7},maxTicksLimit:8,maxRotation:0},border:{display:false}},
+        y:{position:'right',grid:{color:'rgba(255,215,0,0.04)'},min:0,max:maxMVRV+0.5,ticks:{color:'#4A4540',font:{family:'JetBrains Mono',size:7},callback:v=>v.toFixed(1)},border:{display:false}}
+      }
+    }
+  });
+}
+
+/* ── COPY ADDRESS ───────────────────────────────────── */
+function copyAddr() {
+  const addr = 'bc1qptx8ey8znglvsw93z4mfd54cfgd5lcwzvpcg2d';
+  if (navigator.clipboard) navigator.clipboard.writeText(addr).then(() => showToast('✅ Alamat Bitcoin tersalin'));
+  else showToast('Salin manual: '+addr.substring(0,20)+'...');
+}
+
+/* ── SERVICE WORKER ─────────────────────────────────── */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(() => console.log('[BITCOIN ID] SW ready'))
+      .catch(e => console.warn('[BITCOIN ID] SW:', e));
+  });
+}
+
+
+/* ── TICKER BERJALAN ────────────────────────────────── */
+function buildTicker() {
+  const inner = document.getElementById('tickerInner');
+  if (!inner) return;
+  const items = [
+    { id:'tk-usd',   sym:'BTC/USD', val:'$—',  col:'var(--gold)' },
+    { id:'tk-idr',   sym:'BTC/IDR', val:'Rp—', col:'var(--gold)' },
+    { id:'tk-chg',   sym:'24H CHG', val:'—',   col:'var(--t3)' },
+    { id:'tk-mcap',  sym:'MKT CAP', val:'—',   col:'var(--t3)' },
+    { id:'tk-ep',    sym:'EPOCH',   val:'h=4.512', col:'var(--gold)' },
+    { id:'tk-prog',  sym:'SIKLUS',  val:'51.17%',  col:'var(--up)' },
+    { id:'tk-hlv',   sym:'HALVING', val:'~712 Hari',col:'var(--t3)' },
+    { id:'tk-ath',   sym:'ATH',     val:'$126K',    col:'var(--up)' },
+  ];
+  let html = '';
+  // 2 copies for seamless loop
+  for (let copy=0; copy<2; copy++) {
+    items.forEach(item => {
+      const id = copy===0 ? item.id : item.id+'2';
+      html += `<span id="${id}" style="display:inline-flex;align-items:center;gap:5px;padding:0 16px;border-right:1px solid var(--line)">
+        <span style="color:var(--t4);font-size:8px;letter-spacing:.12em">${item.sym}</span>
+        <span style="color:${item.col};font-size:10px;font-weight:500">${item.val}</span>
+      </span>`;
+    });
+  }
+  inner.innerHTML = html;
+}
+
+function updateTicker() {
+  const isUp = btcChange >= 0;
+  const col = isUp ? 'var(--up)' : 'var(--dn)';
+  const updates = {
+    'tk-usd':  { val:'$'+btcUSD.toLocaleString('en-US',{maximumFractionDigits:0}), col:'var(--gold)' },
+    'tk-idr':  { val:'Rp'+fmtN(btcIDR), col:'var(--gold)' },
+    'tk-chg':  { val:(isUp?'+':'')+btcChange.toFixed(2)+'%', col },
+    'tk-mcap': { val:fmtUS(btcUSD*19800000), col:'var(--t3)' },
+  };
+  Object.keys(updates).forEach(id => {
+    [id, id+'2'].forEach(eid => {
+      const el2 = document.getElementById(eid);
+      if (el2) {
+        const span = el2.querySelector('span:last-child');
+        if (span) { span.textContent = updates[id].val; span.style.color = updates[id].col; }
+      }
+    });
+  });
+}
+
+/* ── PWA INSTALL BANNER ─────────────────────────────── */
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const banner = document.getElementById('installBanner');
+  if (banner) { banner.style.display = 'flex'; }
+});
+
+function installApp() {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then(() => {
+    deferredPrompt = null;
+    const banner = document.getElementById('installBanner');
+    if (banner) banner.style.display = 'none';
+  });
+}
+
+/* ── INIT APP ───────────────────────────────────────── */
+function initApp() {
+  // Load saved data
+  loadBadges();
+  loadAlerts();
+  loadJournal();
+
+  // Set today date in journal
+  const today = new Date().toISOString().split('T')[0];
+  if (el('jDate')) el('jDate').value = today;
+
+  // Build ticker
+  buildTicker();
+
+  // Draw halving clock
+  drawClock();
+
+  // Dismiss splash
+  setTimeout(() => {
+    el('splash').classList.add('hide');
+    unlockBadge('first');
+  }, 2500);
+
+  // Fetch price immediately
+  fetchPrice();
+
+  // Fetch blockchain data (block height, h-value, hash rate)
+  fetchBlockchainData();
+
+  // Auto refresh price every 30 seconds
+  setInterval(fetchPrice, 30000);
+
+  // Auto refresh blockchain data every 10 minutes
+  // (block time ~10 menit, tidak perlu lebih sering)
+  setInterval(fetchBlockchainData, 600000);
+}
+
+// Start app when DOM ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
+</script>
+</body>
+</html>
