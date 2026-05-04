@@ -1,25 +1,79 @@
 {
+  "id": "https://bitcoinid.my.id/",
   "name": "BITCOIN ID — Bitcoin Intelligence Indonesia",
   "short_name": "BITCOIN ID",
-  "description": "Platform Bitcoin Intelligence real-time terlengkap dalam Bahasa Indonesia",
+  "description": "Platform Bitcoin Intelligence real-time terlengkap dalam Bahasa Indonesia. Halving Clock, Live Chart, DCA Kalkulator, Rainbow Chart, MVRV, On-Chain Data, Whitepaper & 18 fitur lengkap.",
   "start_url": "./index.html",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "background_color": "#080808",
   "theme_color": "#FFD700",
   "orientation": "portrait-primary",
   "lang": "id",
+  "dir": "ltr",
   "scope": "./",
-  "categories": ["finance","utilities","education"],
+  "categories": ["finance", "utilities", "education"],
+  "prefer_related_applications": false,
   "icons": [
-    {"src":"./icons/icon-72x72.png","sizes":"72x72","type":"image/png","purpose":"any"},
-    {"src":"./icons/icon-96x96.png","sizes":"96x96","type":"image/png","purpose":"any"},
-    {"src":"./icons/icon-128x128.png","sizes":"128x128","type":"image/png","purpose":"any"},
-    {"src":"./icons/icon-144x144.png","sizes":"144x144","type":"image/png","purpose":"any"},
-    {"src":"./icons/icon-152x152.png","sizes":"152x152","type":"image/png","purpose":"any"},
-    {"src":"./icons/icon-192x192.png","sizes":"192x192","type":"image/png","purpose":"any"},
-    {"src":"./icons/icon-384x384.png","sizes":"384x384","type":"image/png","purpose":"any"},
-    {"src":"./icons/icon-512x512.png","sizes":"512x512","type":"image/png","purpose":"any"},
-    {"src":"./icons/icon-192x192.png","sizes":"192x192","type":"image/png","purpose":"maskable"},
-    {"src":"./icons/icon-512x512.png","sizes":"512x512","type":"image/png","purpose":"maskable"}
-  ]
+    {"src": "./icons/icon-72x72.png",   "sizes": "72x72",   "type": "image/png", "purpose": "any"},
+    {"src": "./icons/icon-96x96.png",   "sizes": "96x96",   "type": "image/png", "purpose": "any"},
+    {"src": "./icons/icon-128x128.png", "sizes": "128x128", "type": "image/png", "purpose": "any"},
+    {"src": "./icons/icon-144x144.png", "sizes": "144x144", "type": "image/png", "purpose": "any"},
+    {"src": "./icons/icon-152x152.png", "sizes": "152x152", "type": "image/png", "purpose": "any"},
+    {"src": "./icons/icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "./icons/icon-384x384.png", "sizes": "384x384", "type": "image/png", "purpose": "any"},
+    {"src": "./icons/icon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "./icons/icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable"},
+    {"src": "./icons/icon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ],
+  "screenshots": [
+    {
+      "src": "./icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "BITCOIN ID — Halving Clock & Dashboard"
+    },
+    {
+      "src": "./icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "BITCOIN ID — Live Chart BTC/USD"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Halving Clock",
+      "short_name": "Halving",
+      "description": "Lihat posisi Halving Epoch #5 live",
+      "url": "./index.html",
+      "icons": [{"src": "./icons/icon-96x96.png", "sizes": "96x96"}]
+    },
+    {
+      "name": "Live Chart",
+      "short_name": "Chart",
+      "description": "Chart BTC, Emas & NASDAQ real-time",
+      "url": "./index.html",
+      "icons": [{"src": "./icons/icon-96x96.png", "sizes": "96x96"}]
+    },
+    {
+      "name": "DCA Kalkulator",
+      "short_name": "DCA",
+      "description": "Hitung proyeksi investasi DCA Bitcoin",
+      "url": "./index.html",
+      "icons": [{"src": "./icons/icon-96x96.png", "sizes": "96x96"}]
+    },
+    {
+      "name": "Satoshi Converter",
+      "short_name": "Satoshi",
+      "description": "Konversi Rupiah ke Satoshi instan",
+      "url": "./index.html",
+      "icons": [{"src": "./icons/icon-96x96.png", "sizes": "96x96"}]
+    }
+  ],
+  "iarc_rating_id": "",
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  }
 }
